@@ -1,10 +1,21 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<div id=bar class=navBar [ngClass]="(getNightMode()===0)?'nightSecondary':'daySecondary'">
-  <button class=night (click)=changeNightMode()>
-    <i id=sun [ngClass]="(getNightMode()===1)?'picked':'notPicked'" class="fa fa-sun-o" aria-hidden="true"></i><i id=moon [ngClass]="(getNightMode()===0)?'picked':'notPicked'"class="fa fa-moon-o" aria-hidden="true"></i>
-  </button> 
-</div>
+<!-- <div id=bar class=navBar [ngClass]="(getNightMode()===0)?'nightSecondary':'daySecondary'"> -->
+
+
+
+<!-- </div> -->
 <div id=body class=body [ngClass]="(getNightMode()===0)?'night':'day'">
-  <div class=tree><img class=palm src='../assets/palm.png'></div>
+  <div class=buttonlike>
+    <label id="music" class="custom-file-upload" border-style: solid>
+      <input type="file" id=addfile accept="audio/*" (change)="onChange($event.target.files)">
+      <div class=plus><i class="fa fa-plus" aria-hidden="true"></i> </div>
+      <div class=music><i class="fa fa-music" aria-hidden="true"></i></div>
+    </label>
+  </div>
+  <button class=night (click)=changeNightMode()>
+    <i id=sun [ngClass]="(getNightMode()===1)?'pickedSun':'notPickedSun'" class="fa fa-sun-o" aria-hidden="true"></i>
+    <i id=moon [ngClass]="(getNightMode()===0)?'pickedMoon':'notPickedMoon'" class="fa fa-moon-o" aria-hidden="true"></i>
+  </button>
+  <div class=tree><img class=palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'></div>
 </div>
