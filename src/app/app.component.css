@@ -1,0 +1,70 @@
+
+.navBar {
+    width: 100%;
+    min-height: 5%;
+    max-height: fit-content;
+    top: 0;
+    left: 0;    
+    position: absolute;
+    overflow: hidden;
+    animation-duration: 1s;
+}
+button.night {
+    border-width: 0px;
+    font-size: 250%;    
+    height: 100%;    
+    right: 1px;
+    width: fit-content;
+    position: absolute;
+    outline: none;
+    cursor: pointer;
+    background: none;
+}
+i{
+    width: 50%;
+    height: 100%;    
+    animation-duration: 0.5s;
+}
+i.picked {
+    color: rgb(200,100,200);
+}
+i.notPicked {
+    color: rgb(73, 75, 102);
+}
+@keyframes iconTransitionOff {
+    0% {color: rgb(200,100,200)}
+    100% {color: rgb(73, 75, 102)}
+}
+@keyframes iconTransitionOn {   
+    0% {color: rgb(73, 75, 102)}
+    100% {color: rgb(200,100,200)}
+}
+@keyframes backgroundTransitionOn {
+    0% {background-color: rgb(15, 21, 44)}
+    100% {background-color: rgb(130, 220, 236)}
+}
+@keyframes backgroundTransitionOff {    
+    0% {background-color: rgb(130, 220, 236)}
+    100% {background-color: rgb(15, 21, 44)}
+}
+button:active {
+    border-style: outset;
+  }
+.body {
+    width: 100%;
+    height: 95%;
+    top: 5%;
+    left: 0;    
+    position: absolute;
+    overflow: hidden;
+    animation-duration: 1s;
+}
+.tree{
+    height: 100%;
+}
+img.palm {
+    max-height:80%;
+    position: absolute;
+    bottom: 0;
+    transform: translateY(1%);
+}
