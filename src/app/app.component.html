@@ -8,7 +8,7 @@
 <div id=body class=body [ngClass]="(getNightMode()===0)?'night':'day'">
   <div class=buttonlike>
     <label id="music" class="custom-file-upload" border-style: solid>
-      <input type="file" id=addfile accept="audio/*" (change)="onChange($event.target.files)">
+      <input type="file" id=addfile accept="audio/*" multiple (change)="onChange($event.target.files)">
       <div class=plus><i class="fa fa-plus" aria-hidden="true"></i> </div>
       <div class=music><i class="fa fa-music" aria-hidden="true"></i></div>
     </label>
@@ -17,5 +17,13 @@
     <i id=sun [ngClass]="(getNightMode()===1)?'pickedSun':'notPickedSun'" class="fa fa-sun-o" aria-hidden="true"></i>
     <i id=moon [ngClass]="(getNightMode()===0)?'pickedMoon':'notPickedMoon'" class="fa fa-moon-o" aria-hidden="true"></i>
   </button>
-  <div class=tree><img class=palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'></div>
+  <audio id="sound" class="sound" controls></audio>
+  <div class=tree><img class=palm id= palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'></div>
+  <div class=playlist id=playlist>
+    <div *ngFor="let song of getPlaylistService(); index as i" class=song id=song (click) = play(i)>
+      {{ song }}&nbsp;&nbsp;&nbsp;
+    </div>
+    
+  </div>
+
 </div>

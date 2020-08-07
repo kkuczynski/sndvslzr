@@ -11,8 +11,7 @@
 }
 button.night {
     border-width: 0px;
-    font-size: 250%;    
-    height: 100%;    
+    font-size: 250%;        
     right: 1px;
     width: fit-content;
     position: absolute;
@@ -49,8 +48,7 @@ button.night {
     left:18px;
 }
 i{
-    width: 50%;
-    height: 100%;    
+    width: 50%;    
     animation-duration: 1s;
 }
 i.pickedMoon {
@@ -103,6 +101,14 @@ i.notPickedMoon:hover {
     0% {background-color: rgb(130, 220, 236)}
     100% {background-color: rgb(15, 21, 44)}
 }
+@keyframes pngTransitionOn {
+    0% { filter: invert(61%) sepia(76%) saturate(650%) hue-rotate(259deg) brightness(82%) contrast(89%)}
+    100% {filter: none}
+}
+@keyframes pngTransitionOff {
+    0% {filter: none}
+    100% {filter: invert(61%) sepia(76%) saturate(650%) hue-rotate(259deg) brightness(82%) contrast(89%)}
+}
 button:active {
     border-style: outset;
   }
@@ -125,11 +131,38 @@ img.palm {
     bottom: 0;
     transform: translateY(1%);
     background: none;
+    animation-duration: 5s;
+}
+.playlist{
+    background: none;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    max-height: 90%;
+    max-width: fit-content;
+    text-orientation: upright;
+    overflow-y: scroll;
+    transform: translateX(5%);
+}
+.song{
+    cursor: pointer;
+    
+}
+.song:hover{
+    text-shadow: 0px 0px 5px rgb(250,125,250);
 }
 input[type="file"] {
     display: none;
 }
 
 .palm.night {
-    filter: invert(20%) sepia(33%) saturate(2934%) hue-rotate(270deg) brightness(91%) contrast(96%);
+    filter: invert(61%) sepia(76%) saturate(650%) hue-rotate(259deg) brightness(82%) contrast(89%);
+}
+
+.sound {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
 }
