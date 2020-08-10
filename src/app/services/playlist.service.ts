@@ -11,11 +11,11 @@ export class PlaylistService {
   private currentSong;
   private sound: HTMLAudioElement = <HTMLAudioElement><unknown>document.getElementById('sound');
   private paused = true;
+  
   constructor() { }
 
   addToPlaylist(file: File) {
     this.playlist.push(file.name);
-    console.log(this.playlist);
   }
 
   getSound(): HTMLAudioElement {
@@ -29,9 +29,12 @@ export class PlaylistService {
     return this.playlist;
   }
 
+  getSongPercentage(): number {
+    return this.sound.currentTime / this.sound.duration * 100;
+  }
+
   getIsPaused(): boolean {
-    if(!this.sound) {
-      console.log('no sound')
+    if(!this.sound) {     
       return true;
     } else {
     return this.paused
@@ -44,6 +47,8 @@ export class PlaylistService {
     this.sound.src = this.playlistSrc[index] as unknown as string; 
     this.paused = false;
   }
+
+  
 
   play(): boolean {
     if (this.playlist.length === 0) {
@@ -64,5 +69,10 @@ export class PlaylistService {
       }
     }
   }
+}
+
+class Times {
+  current = 0;
+  end: number;
 }
 

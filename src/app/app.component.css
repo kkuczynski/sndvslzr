@@ -213,8 +213,7 @@ input[type="file"] {
     left: 50%;
     margin-right: -50%;
     bottom: 200px;
-    transform: translateX(-50%);
-    
+    transform: translateX(-50%);    
     background: none;
 }
 .play:hover {

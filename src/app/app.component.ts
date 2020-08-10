@@ -17,7 +17,6 @@ export class AppComponent {
   constructor() {
     this.nightMode = new NightModeService;
     this.playlistService = new PlaylistService;
-
   }
 
   public onChange(fileList: FileList): void {
@@ -27,6 +26,12 @@ export class AppComponent {
       console.log(file);
       this.playlistService.addToPlaylist(file);
       console.log(this.playlistService.getPlaylist());
+    }
+  }
+
+  moveOn() {
+    if (this.playlistService.getSound().ended) {
+      console.log('ended');
     }
   }
 
@@ -72,25 +77,13 @@ export class AppComponent {
       document.getElementById('addfile').click();
     }
   }
-
-  overflows(i): boolean {
-    const element = document.getElementById(i + 'song');
-    if (element) {
-    if (element.scrollWidth > element.clientWidth) {
-      console.log(element)
-      return true;
-    } else {
-      return false;
-    }
-  }
-  return false
-  }
+  
   getNightMode(): number {
     return this.nightMode.getNightMode();
 
   }
 
-  getCurrentSongId(): number {
+  getCurrentSongId(): number {    
     return this.currentSongId;
   }
 }
