@@ -11,9 +11,13 @@ export class AppComponent {
   title = 'sndvslzr';
   private nightMode: NightModeService;
   private playlistService: PlaylistService;
+  private currentSongId = 0;
+  private songLoaded = false;
+
   constructor() {
     this.nightMode = new NightModeService;
     this.playlistService = new PlaylistService;
+
   }
 
   public onChange(fileList: FileList): void {
@@ -23,17 +27,19 @@ export class AppComponent {
       console.log(file);
       this.playlistService.addToPlaylist(file);
       console.log(this.playlistService.getPlaylist());
-    }    
+    }
   }
 
-  getPlaylistService() : string[] {
+  getPlaylistService(): string[] {
     return this.playlistService.getPlaylist();
+
   }
 
   changeNightMode() {
     if (this.nightMode.getNightMode() === 1) {
       console.log('sun lowering, moon rising');
       document.getElementById('sun').style.animationName = 'iconTransitionSunOff';
+      document.getElementById('play').style.animationName = 'iconTransitionMusicOff';
       document.getElementById('moon').style.animationName = 'iconTransitionMoonOn';
       // document.getElementById('bar').style.animationName = 'backgroundTransitionOff';
       document.getElementById('body').style.animationName = 'backgroundTransitionOff';
@@ -42,6 +48,7 @@ export class AppComponent {
     } else {
       console.log('sun rising, moon lowering');
       document.getElementById('sun').style.animationName = 'iconTransitionSunOn';
+      document.getElementById('play').style.animationName = 'iconTransitionMusicOn';
       document.getElementById('moon').style.animationName = 'iconTransitionMoonOff';
       // document.getElementById('bar').style.animationName = 'backgroundTransitionOn';
       document.getElementById('body').style.animationName = 'backgroundTransitionOn';
@@ -50,10 +57,17 @@ export class AppComponent {
     }
     this.nightMode.changeNightMode()
   }
-
-  play(i: number) {
-    console.log('playing');
-    this.playlistService.play(i);
+  load(index: number) {
+    this.currentSongId = index;
+    this.playlistService.loadSong(this.currentSongId);
+  }
+  isPaused(): boolean {
+    return this.playlistService.getIsPaused();
+  }
+  play() {
+    if(!this.playlistService.play()) {
+      document.getElementById('addfile').click();
+    }
   }
 
   getNightMode(): number {
