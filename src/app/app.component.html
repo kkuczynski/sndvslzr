@@ -18,14 +18,14 @@
     <i id=moon [ngClass]="(getNightMode()===0)?'pickedMoon':'notPickedMoon'" class="fa fa-moon-o" aria-hidden="true"></i>
   </button>
   <audio id="sound" class="sound" controls autoplay></audio>
-  <div class= center>
+  <div class= center>    
     <button *ngIf=isPaused() [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=play id=play (click)=play()><i class="fa fa-play" aria-hidden="true"></i></button>
     <button *ngIf=!isPaused() [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=pause id=play (click)=play()><i class="fa fa-pause" aria-hidden="true"></i></button>
   </div>
   <div class=tree><img class=palm id= palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'></div>
   <div class=playlist id=playlist>
-    <div *ngFor="let song of getPlaylistService(); index as i" class=song id=song (click) = load(i)>
-      {{ song }}&nbsp;&nbsp;&nbsp;
+    <div [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'"*ngFor="let song of getPlaylistService(); index as i" class=song id={{i}}song (click) = load(i)>
+      {{ song }}
     </div>
     
   </div>

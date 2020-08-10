@@ -32,7 +32,10 @@ export class AppComponent {
 
   getPlaylistService(): string[] {
     return this.playlistService.getPlaylist();
+  }
 
+  getCurrentSong(): string {
+    return this.playlistService.getPlaylist()[this.currentSongId];
   }
 
   changeNightMode() {
@@ -65,13 +68,29 @@ export class AppComponent {
     return this.playlistService.getIsPaused();
   }
   play() {
-    if(!this.playlistService.play()) {
+    if (!this.playlistService.play()) {
       document.getElementById('addfile').click();
     }
   }
 
+  overflows(i): boolean {
+    const element = document.getElementById(i + 'song');
+    if (element) {
+    if (element.scrollWidth > element.clientWidth) {
+      console.log(element)
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return false
+  }
   getNightMode(): number {
     return this.nightMode.getNightMode();
 
+  }
+
+  getCurrentSongId(): number {
+    return this.currentSongId;
   }
 }

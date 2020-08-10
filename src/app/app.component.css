@@ -139,18 +139,28 @@ img.palm {
     right: 0;
     bottom: 0;
     max-height: 90%;
-    max-width: fit-content;
+    max-width: 20%;
     text-orientation: upright;
+    overflow-x: hidden;
+
+    white-space: nowrap;
     overflow-y: scroll;
-    transform: translateX(5%);
+    text-overflow: ellipsis;
+    transform: translateX(17px);
 }
 .song{
-    cursor: pointer;
-    
+    cursor: pointer;    
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 .song:hover{
-    text-shadow: 0px 0px 5px rgb(250,125,250);
+    text-shadow: 0px 0px 5px rgb(250,125,250);       
 }
+
+
 input[type="file"] {
     display: none;
 }
@@ -193,7 +203,11 @@ input[type="file"] {
     outline: none;
 }
 
-
+.songPicked {
+   text-decoration: underline ;
+   text-decoration-style: solid;
+   color: rgb(250,125,250);
+}
 .center {
     position: absolute;
     left: 50%;

@@ -18,9 +18,11 @@ export class PlaylistService {
     console.log(this.playlist);
   }
 
+  getSound(): HTMLAudioElement {
+    return this.sound;
+  }
   addToPlaylistSrc(file) {
-    this.playlistSrc.push(file);
-    console.log(this.playlist);
+    this.playlistSrc.push(file);   
   }
 
   getPlaylist(): string[] {
@@ -40,6 +42,7 @@ export class PlaylistService {
     this.sound = new Audio();
     this.sound = <HTMLAudioElement><unknown>document.getElementById('sound');
     this.sound.src = this.playlistSrc[index] as unknown as string; 
+    this.paused = false;
   }
 
   play(): boolean {
