@@ -1,14 +1,4 @@
 
-.navBar {
-    width: 100%;
-    min-height: 5%;
-    max-height: 20%;
-    top: 0;
-    left: 0;    
-    position: absolute;
-    overflow: hidden;
-    animation-duration: 1s;
-}
 button.night {
     border-width: 0px;
     font-size: 250%;        
@@ -86,12 +76,20 @@ i.notPickedMoon:hover {
     100% {color: rgb(30,30,30)}
 }
 @keyframes iconTransitionMusicOn {   
-    0% {color: rgb(200,100,200)}
+    0% {color: rgb(130, 220, 236)}
     100% {color: rgb(30,30,30)}
 }
 @keyframes iconTransitionMusicOff {
     0% {color: rgb(30,30,30)}
-    100% {color: rgb(200,100,200)}
+    100% {color: rgb(130, 220, 236)}
+}
+@keyframes sliderTransitionOn {
+    0% {background: rgb(130, 220, 236)}
+    100% {background: rgb(30,30,30)}
+}
+@keyframes sliderTransitionOff {
+    0% {background: rgb(30,30,30)}
+    100% {background: rgb(130, 220, 236)}    
 }
 @keyframes backgroundTransitionOn {
     0% {background-color: rgb(15, 21, 44)}
@@ -131,8 +129,64 @@ img.palm {
     bottom: 0;
     transform: translateY(1%);
     background: none;
-    animation-duration: 5s;
+    animation-duration: 1s;
 }
+.slider {
+    -webkit-appearance: none; 
+    appearance: none;
+    height: 5px;
+    position: absolute;
+    transform: translate(-500px,310px);
+    width: 700px;
+    opacity: 0.9;
+    outline: none; 
+    border: none;
+    border-radius: 20px;    
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    animation-duration: 1s;
+}
+.slider.active:hover {
+    opacity: 1;
+    box-shadow: 0px 0px 5px rgb(250,125,250);
+    cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 0px; 
+    height: 0px;
+    border-radius: 20px;
+    background: rgb(250,125,250); 
+ 
+  }  
+  .slider.active::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 20px; 
+    height: 20px;
+    border-radius: 20px;
+    background: rgb(250,125,250); 
+ 
+  }  
+  .slider.active::-moz-range-thumb {
+    width: 20px; 
+    height: 20px;
+    border-radius: 20px;
+    background: rgb(250,125,250);      
+  }
+  .slider::-moz-range-thumb {
+    width: 0px; 
+    height: 0px;
+    background: rgb(250,125,250);      
+  }
+  .slider::-moz-range-thumb:hover{
+    box-shadow: 0px 0px 15px rgb(250,125,250);
+
+  }
+  .slider::-webkit-slider-thumb:hover {
+    box-shadow: 0px 0px 15px rgb(250,125,250);
+  }
 .playlist{
     background: none;
     position: absolute;
@@ -155,6 +209,7 @@ img.palm {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 
 .song:hover{
     text-shadow: 0px 0px 5px rgb(250,125,250);       
@@ -183,9 +238,10 @@ input[type="file"] {
     border-radius: 300px;
     padding-left: 22px;
     padding-right: 72px;
+    padding-bottom: 0px;
     background: none;
     cursor: pointer;
-    animation-duration: 1px;
+    animation-duration: 1s;
     outline: none;
     text-align: center;
 }
@@ -193,15 +249,110 @@ input[type="file"] {
     font-size: 200px;
     border: solid;
     border-radius: 300px;
-    padding-left: 17px;
+    padding-left: 16px;
     padding-right: 103px;
     padding-top: 30px;
     padding-bottom: 29px;
     background: none;
     cursor: pointer;
-    animation-duration: 1px;
+    animation-duration: 1s;
     outline: none;
 }
+.forward {
+    position: absolute;
+    transform: translate(15px, 80px);
+    font-size: 100px;
+    border: solid;
+    border-radius: 300px;
+    padding-left: 20px;
+    padding-right: 50px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background: none;
+    cursor: pointer;
+    animation-duration: 1s;
+    outline: none;
+}
+.backward {
+    position: absolute;
+    transform: translate(-148px, 80px);
+    font-size: 100px;
+    border: solid;
+    border-radius: 300px;
+    padding-left: 20px;
+    padding-right: 50px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background: none;
+    cursor: pointer;
+    animation-duration: 1s;
+    outline: none;
+}
+.loop {
+    position: absolute;
+    transform: translate(160px, 110px);
+    font-size: 50px;
+    border: solid;
+    border-radius: 300px;
+    padding-left: 4px;
+    padding-right: 26px;
+    padding-top: 8px;
+    padding-bottom: 5px;
+    background: none;
+    cursor: pointer;
+    animation-duration: 1s;
+    outline: none;
+}
+.loopChecked {
+    position: absolute;
+    transform: translate(160px, 110px);
+    font-size: 50px;
+    border: solid;
+    border-radius: 300px;
+    padding-left: 4px;
+    padding-right: 26px;
+    padding-top: 8px;
+    padding-bottom: 5px;
+    background: none;
+    cursor: pointer;
+    animation-duration: 1s;
+    outline: none;
+    text-shadow: 0px 0px 10px rgb(250,125,250);
+    box-shadow: 0px 0px 10px rgb(250,125,250);
+}
+.shuffle {
+    position: absolute;
+    transform: translate(-235px, 110px);
+    font-size: 50px;
+    border: solid;
+    border-radius: 300px;
+    padding-left: 0px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 3px;
+    background: none;
+    cursor: pointer;
+    animation-duration: 1s;
+    outline: none;
+}
+.shuffleChecked {
+    position: absolute;
+    transform: translate(-235px, 110px);
+    font-size: 50px;
+    border: solid;
+    border-radius: 300px;
+    padding-left: 0px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 3px;
+    background: none;
+    cursor: pointer;
+    animation-duration: 1s;
+    outline: none;
+    text-shadow: 0px 0px 10px rgb(250,125,250);
+    box-shadow: 0px 0px 10px rgb(250,125,250);
+}
+
 
 .songPicked {
    text-decoration: underline ;
@@ -215,6 +366,7 @@ input[type="file"] {
     bottom: 200px;
     transform: translateX(-50%);    
     background: none;
+    animation-duration: 1s;
 }
 .play:hover {
     text-shadow: 0px 0px 20px rgb(250,125,250);
@@ -224,9 +376,40 @@ input[type="file"] {
     text-shadow: 0px 0px 20px rgb(250,125,250);
     box-shadow: 0px 0px 20px rgb(250,125,250);
 }
+.forward:hover {
+    text-shadow: 0px 0px 20px rgb(250,125,250);
+    box-shadow: 0px 0px 20px rgb(250,125,250);
+}
+.backward:hover {
+    text-shadow: 0px 0px 20px rgb(250,125,250);
+    box-shadow: 0px 0px 20px rgb(250,125,250);
+}
+.loop:hover {
+    text-shadow: 0px 0px 20px rgb(250,125,250);
+    box-shadow: 0px 0px 20px rgb(250,125,250);
+}
+.loopChecked:hover {
+    text-shadow: 0px 0px 20px rgb(250,125,250);
+    box-shadow: 0px 0px 20px rgb(250,125,250);
+}
+.shuffleChecked:hover {
+    text-shadow: 0px 0px 20px rgb(250,125,250);
+    box-shadow: 0px 0px 20px rgb(250,125,250);
+}
+
+.shuffle:hover {
+    text-shadow: 0px 0px 20px rgb(250,125,250);
+    box-shadow: 0px 0px 20px rgb(250,125,250);
+}
 .dayCenter {
     color: rgb(30,30,30);
 }
 .nightCenter {
-    color: rgb(126, 191, 204)
+    color: rgb(130, 220, 236);
+}
+.nightSlider {
+    background: rgb(130, 220, 236)
+}
+.daySlider{
+    background: rgb(30,30,30);
 }

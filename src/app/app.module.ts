@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PlaylistService } from './services/playlist.service';
 
 @NgModule({
   declarations: [
@@ -14,7 +13,7 @@ import { PlaylistService } from './services/playlist.service';
     AppRoutingModule
   ],
   providers: [
-    PlaylistService
+
   ],
   bootstrap: [AppComponent]
 })
