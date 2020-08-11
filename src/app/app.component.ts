@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NightModeService } from './services/night-mode.service';
 import { PlaylistService } from './services/playlist.service';
+import { UrlObject } from 'url';
 
 @Component({
   selector: 'app-root',
@@ -9,38 +10,133 @@ import { PlaylistService } from './services/playlist.service';
 })
 export class AppComponent {
   title = 'sndvslzr';
-  private nightMode: NightModeService;
-  private playlistService: PlaylistService;
-  private currentSongId = 0;
-  private songLoaded = false;
-
-  constructor() {
-    this.nightMode = new NightModeService;
-    this.playlistService = new PlaylistService;
+  private nightMode: NightModeService;  
+  public currentSongId = 0;
+  private songLoaded = false;  
+  private progressBar = document.getElementById('timeSlider');
+  public playlistLength: number = 0;
+  private playlist: string[] = [];
+  private playlistSrc: UrlObject[] = [];  
+  private sound: HTMLAudioElement = <HTMLAudioElement><unknown>document.getElementById('sound');
+  private paused = true;
+  private movedOn = false;
+  
+  constructor() {    
+    this.nightMode = new NightModeService();
   }
+  
+
+  addToPlaylist(file: File) {
+    this.playlist.push(file.name);
+  }
+
+  getSound(): HTMLAudioElement {
+    return this.sound;
+  }
+  addToPlaylistSrc(file) {
+    this.playlistSrc.push(file);
+  }
+
+  getPlaylist(): string[] {
+    return this.playlist;
+  }
+
+  getSongPercentage(): number {
+    return this.sound.currentTime / this.sound.duration * 100;
+  }
+
+  getIsPaused(): boolean {
+    if (!this.sound) {
+      return true;
+    } else {
+      return this.paused
+    }
+  }
+
+  loadSong(index: number) {
+    this.currentSongId = index;
+    this.sound = new Audio();
+    this.sound = <HTMLAudioElement><unknown>document.getElementById('sound');
+    this.sound.src = this.playlistSrc[index] as unknown as string;
+    this.paused = false;
+    console.log('load' + index)
+    this.play();
+  }
+
+  delay(ms: number) {    
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  play(): boolean {
+    if (this.playlist.length === 0) {
+      document.getElementById('addfile').click();
+    }
+    else {
+      if (!this.sound) {
+        this.loadSong(this.currentSongId);        
+      }
+      if (this.sound) {
+        this.sound.addEventListener('playing', () => {
+          console.log('change');
+          this.movedOn = false;
+        })
+        this.sound.addEventListener('ended',() => {
+          if (!this.movedOn) {
+          console.log('willmoveon')
+          this.moveOn();
+          this.movedOn=true;
+          return;
+          }
+        });
+      }
+      if (this.paused) {
+        this.sound.play()
+        this.paused = false;
+        return true;
+      } else {
+        this.sound.pause();
+        this.paused = true;
+        return true;
+      }
+    }
+  }
+
 
   public onChange(fileList: FileList): void {
     for (let i = 0; i < fileList.length; i++) {
-      this.playlistService.addToPlaylistSrc(URL.createObjectURL(fileList[i]));
+      this.addToPlaylistSrc(URL.createObjectURL(fileList[i]));
       let file = fileList[i];
       console.log(file);
-      this.playlistService.addToPlaylist(file);
-      console.log(this.playlistService.getPlaylist());
+      this.addToPlaylist(file);
+      this.playlistLength++;
     }
+  }
+
+  refreshSlider() {
+    console.log('refreshing');
   }
 
   moveOn() {
-    if (this.playlistService.getSound().ended) {
-      console.log('ended');
+    
+    if(this.currentSongId < this.playlistLength-1) {
+    console.log(this.currentSongId);
+    console.log(this.playlistLength);
+    this.currentSongId++;
+    this.loadSong(this.currentSongId);   
     }
+    else {
+      this.currentSongId = 0;
+      this.loadSong(this.currentSongId);     
+    }
+    this.play();
   }
 
   getPlaylistService(): string[] {
-    return this.playlistService.getPlaylist();
+    return this.getPlaylist();
   }
 
   getCurrentSong(): string {
-    return this.playlistService.getPlaylist()[this.currentSongId];
+    return this.getPlaylist()[this.currentSongId];
   }
 
   changeNightMode() {
@@ -65,18 +161,11 @@ export class AppComponent {
     }
     this.nightMode.changeNightMode()
   }
-  load(index: number) {
-    this.currentSongId = index;
-    this.playlistService.loadSong(this.currentSongId);
-  }
+
   isPaused(): boolean {
-    return this.playlistService.getIsPaused();
+    return this.getIsPaused();
   }
-  play() {
-    if (!this.playlistService.play()) {
-      document.getElementById('addfile').click();
-    }
-  }
+  
   
   getNightMode(): number {
     return this.nightMode.getNightMode();

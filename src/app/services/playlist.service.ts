@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { UrlObject } from 'url';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PlaylistService {
 
   private playlist: string[] = [];
   private playlistSrc: UrlObject[] = [];
-  private currentSong;
+  private currentSong: number;
   private sound: HTMLAudioElement = <HTMLAudioElement><unknown>document.getElementById('sound');
   private paused = true;
-  
+
   constructor() { }
 
   addToPlaylist(file: File) {
@@ -22,7 +20,7 @@ export class PlaylistService {
     return this.sound;
   }
   addToPlaylistSrc(file) {
-    this.playlistSrc.push(file);   
+    this.playlistSrc.push(file);
   }
 
   getPlaylist(): string[] {
@@ -34,21 +32,35 @@ export class PlaylistService {
   }
 
   getIsPaused(): boolean {
-    if(!this.sound) {     
+    if (!this.sound) {
       return true;
     } else {
-    return this.paused
+      return this.paused
     }
   }
 
   loadSong(index: number) {
+    this.currentSong = index;
     this.sound = new Audio();
     this.sound = <HTMLAudioElement><unknown>document.getElementById('sound');
-    this.sound.src = this.playlistSrc[index] as unknown as string; 
+    this.sound.src = this.playlistSrc[index] as unknown as string;
     this.paused = false;
+    console.log('load' + index)
+    this.play();
   }
 
-  
+  loadNextSong() {
+    if (this.currentSong < this.playlist.length) {
+      this.currentSong++;
+      this.loadSong(this.currentSong);
+    }
+    else {
+      this.currentSong = 0;
+      this.loadSong(this.currentSong);
+    }
+  }
+
+
 
   play(): boolean {
     if (this.playlist.length === 0) {
