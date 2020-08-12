@@ -21,12 +21,29 @@ export class AppComponent {
   private movedOn = false;
   public loop = false;
   public shuffle = false;
+  public times: Times = new Times;
+  public volume: number = 1;
+  private volumeSlider;
 
   constructor() {
     this.nightMode = new NightModeService();
   }
+  ngOnInit(): void {
+    this.volumeSlider = document.getElementById('volumeSlider');
+    this.handleVolume();
 
+  }
 
+  handleVolume() {
+    this.volumeSlider.addEventListener('input', (event) => {
+      this.volume = event.target.value;
+      if (this.sound) {
+        console.log(this.volume);
+        this.sound.volume = this.volume;
+      }
+    });
+
+  }
   addToPlaylist(file: File) {
     this.playlist.push(file.name);
   }
@@ -60,7 +77,7 @@ export class AppComponent {
       this.loop = true;
     }
   }
-  changeShuffle(){
+  changeShuffle() {
     if (this.shuffle) {
       this.shuffle = false;
     } else {
@@ -69,51 +86,99 @@ export class AppComponent {
     }
   }
 
+  loadSongFromPlaylist(i: number) {
+    this.loadSong(i);
+    this.play();
+  }
   loadSong(index: number) {
     this.currentSongId = index;
     this.sound = new Audio();
     this.sound = <HTMLAudioElement><unknown>document.getElementById('sound');
     this.sound.src = this.playlistSrc[index] as unknown as string;
-    this.paused = false;
-    console.log('load' + index)
-    this.play();
+    this.paused = true;
+    //this.sound.load;
+    document.getElementById('timeSlider').addEventListener('input', (event) => {
+      this.setTime(event);
+    })
+    this.sound.volume = this.volume;
+  }
+  delete(i: number) {
+    if (this.playlistLength > 1) {
+    this.playlist.splice(i, 1);
+    this.playlistSrc.splice(i, 1);
+    this.playlistLength--;
+    }
+  }
+  moveUp(){
+    console.log('up');
+  }
+  moveDown(){
+    console.log('down');
+  }
+  mute() {
+    this.volume = 0;
+    if(this.sound) {
+    this.sound.volume = this.volume;
+    }
   }
 
+  maxVolume() {
+    this.volume = 1;
+    if(this.sound) {
+    this.sound.volume = this.volume;
+    }
+  }
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  play(): boolean {
+  play(id?: number): boolean {
+    console.log(0);
     if (this.playlist.length === 0) {
       document.getElementById('addfile').click();
+      console.log(1)
     }
     else {
       if (!this.sound) {
-        this.loadSong(this.currentSongId);
+        this.loadSong(id ? id : this.currentSongId);
+        console.log(2)
       }
+
       if (this.sound) {
-        this.sound.addEventListener('playing', () => {          
+        console.log(4)
+        this.sound.addEventListener('playing', () => {
+          this.times.setDuration(this.sound.duration);
+          this.times.updateCurrent(this.sound.currentTime);
           this.movedOn = false;
+          document.getElementById('timeSlider').addEventListener('input', (event) => {
+            this.setTime(event);
+          })
         })
+        console.log(5)
         this.sound.addEventListener('ended', () => {
-          if (!this.movedOn) {            
+          if (!this.movedOn) {
             this.moveOn();
-            this.movedOn = true;            
+            this.movedOn = true;
           }
         })
+        console.log(6)
         this.sound.addEventListener('timeupdate', () => {
           document.getElementById('timeSlider').setAttribute('value', this.sound.currentTime.toString());
+          this.times.updateCurrent(this.sound.currentTime);
         })
+        console.log(7)
         document.getElementById('timeSlider').addEventListener('input', (event) => {
           this.setTime(event);
         });
-        
+
       }
       if (this.paused) {
+        console.log(8)
         this.sound.play()
         this.paused = false;
         return true;
       } else {
+        console.log(9)
         this.sound.pause();
         this.paused = true;
         return true;
@@ -131,7 +196,7 @@ export class AppComponent {
       this.addToPlaylistSrc(URL.createObjectURL(fileList[i]));
       let file = fileList[i];
       console.log(file);
-      this.addToPlaylist(file);     
+      this.addToPlaylist(file);
       this.playlistLength++;
     }
   }
@@ -145,17 +210,17 @@ export class AppComponent {
     if (this.currentSongId < this.playlistLength - 1) {
       console.log(this.currentSongId);
       console.log(this.playlistLength);
-      if(!this.shuffle){
-      this.currentSongId++;
+      if (!this.shuffle) {
+        this.currentSongId++;
       } else {
-        let tmpCurrentSongId=this.currentSongId;
+        let tmpCurrentSongId = this.currentSongId;
         this.currentSongId = Math.floor((Math.random() * (this.playlistLength)));
-        if(tmpCurrentSongId === this.currentSongId) {
-          if(this.currentSongId === this.playlistLength-1) {
+        if (tmpCurrentSongId === this.currentSongId) {
+          if (this.currentSongId === this.playlistLength - 1) {
             this.currentSongId = 0;
           } else {
             this.currentSongId++;
-          }         
+          }
         }
       }
       this.loadSong(this.currentSongId);
@@ -208,38 +273,44 @@ export class AppComponent {
   }
 
   changeNightMode() {
-    if (this.nightMode.getNightMode() === 1) {
-      console.log('sun lowering, moon rising');
-      document.getElementById('sun').style.animationName = 'iconTransitionSunOff';      
-      document.getElementById('moon').style.animationName = 'iconTransitionMoonOn';
-      // document.getElementById('bar').style.animationName = 'backgroundTransitionOff';
-      document.getElementById('body').style.animationName = 'backgroundTransitionOff';
-      document.getElementById('music').style.animationName = 'iconTransitionMusicOff';
-      document.getElementById('palm').style.animationName = 'pngTransitionOff';
+    {
+      // if (this.nightMode.getNightMode() === 1) {
+      //   console.log('sun lowering, moon rising');
+      //   document.getElementById('sun').style.animationName = 'iconTransitionSunOff';
+      //   document.getElementById('moon').style.animationName = 'iconTransitionMoonOn';
+      //   // document.getElementById('bar').style.animationName = 'backgroundTransitionOff';
+      //   document.getElementById('body').style.animationName = 'backgroundTransitionOff';
+      //   document.getElementById('music').style.animationName = 'iconTransitionMusicOff';
+      //   document.getElementById('palm').style.animationName = 'pngTransitionOff';
+      //   document.getElementById('play').style.animationName = 'iconTransitionMusicOff';
+      //   document.getElementById('forward').style.animationName = 'iconTransitionMusicOff';
+      //   document.getElementById('backward').style.animationName = 'iconTransitionMusicOff';
+      //   document.getElementById('shuffle').style.animationName = 'iconTransitionMusicOff';
+      //   document.getElementById('loop').style.animationName = 'iconTransitionMusicOff';
+      //   document.getElementById('timeSlider').style.animationName = 'sliderTransitionOff';
+      //   document.getElementById('volumeSlider').style.animationName = 'sliderTransitionOff';
+      //   document.getElementById('speaker').style.animationName = 'iconTransitionMusicOff';
+      //   document.getElementById('mute').style.animationName = 'iconTransitionMusicOff';
 
-      document.getElementById('play').style.animationName = 'iconTransitionMusicOff';
-      document.getElementById('forward').style.animationName = 'iconTransitionMusicOff';
-      document.getElementById('backward').style.animationName = 'iconTransitionMusicOff';
-      document.getElementById('shuffle').style.animationName = 'iconTransitionMusicOff';
-      document.getElementById('loop').style.animationName = 'iconTransitionMusicOff';
-      document.getElementById('timeSlider').style.animationName = 'sliderTransitionOff';
-      
-    } else {
-      console.log('sun rising, moon lowering');
-      document.getElementById('sun').style.animationName = 'iconTransitionSunOn';    
-      document.getElementById('moon').style.animationName = 'iconTransitionMoonOff';
-      // document.getElementById('bar').style.animationName = 'backgroundTransitionOn';
-      document.getElementById('body').style.animationName = 'backgroundTransitionOn';
-      document.getElementById('music').style.animationName = 'iconTransitionMusicOn';
-      document.getElementById('palm').style.animationName = 'pngTransitionOn';
+      // } else {
+      //   console.log('sun rising, moon lowering');
+      //   document.getElementById('sun').style.animationName = 'iconTransitionSunOn';
+      //   document.getElementById('moon').style.animationName = 'iconTransitionMoonOff';
+      //   // document.getElementById('bar').style.animationName = 'backgroundTransitionOn';
+      //   document.getElementById('body').style.animationName = 'backgroundTransitionOn';
+      //   document.getElementById('music').style.animationName = 'iconTransitionMusicOn';
+      //   document.getElementById('palm').style.animationName = 'pngTransitionOn';
+      //   document.getElementById('play').style.animationName = 'iconTransitionMusicOn';
+      //   document.getElementById('forward').style.animationName = 'iconTransitionMusicOn';
+      //   document.getElementById('backward').style.animationName = 'iconTransitionMusicOn';
+      //   document.getElementById('shuffle').style.animationName = 'iconTransitionMusicOn';
+      //   document.getElementById('loop').style.animationName = 'iconTransitionMusicOn';
+      //   document.getElementById('timeSlider').style.animationName = 'sliderTransitionOn';
+      //   document.getElementById('volumeSlider').style.animationName = 'sliderTransitionOn';
+      //   document.getElementById('speaker').style.animationName = 'iconTransitionMusicOn';
+      //   document.getElementById('mute').style.animationName = 'iconTransitionMusicOn';
 
-        document.getElementById('play').style.animationName = 'iconTransitionMusicOn';
-        document.getElementById('forward').style.animationName = 'iconTransitionMusicOn';
-        document.getElementById('backward').style.animationName = 'iconTransitionMusicOn';
-        document.getElementById('shuffle').style.animationName = 'iconTransitionMusicOn';
-        document.getElementById('loop').style.animationName = 'iconTransitionMusicOn';
-        document.getElementById('timeSlider').style.animationName = 'sliderTransitionOn';
-
+      // }
     }
     this.nightMode.changeNightMode()
   }
@@ -256,5 +327,32 @@ export class AppComponent {
 
   getCurrentSongId(): number {
     return this.currentSongId;
+  }
+}
+
+class Times {
+  currentMin: number;
+  currentSec: string;
+  durationMin: number;
+  durationSec: string;
+
+  setDuration(duration: number) {
+    this.durationMin = Math.floor(duration / 60);
+    let tmpDurationSec = Math.floor(duration - (this.durationMin * 60));
+    if (tmpDurationSec < 10) {
+      this.durationSec = '0' + tmpDurationSec;
+    } else {
+      this.durationSec = tmpDurationSec.toString();
+    }
+  }
+
+  updateCurrent(current: number) {
+    this.currentMin = Math.floor(current / 60);
+    let tmpCurrentSec = Math.floor(current - (this.currentMin * 60));
+    if (tmpCurrentSec < 10) {
+      this.currentSec = '0' + tmpCurrentSec;
+    } else {
+      this.currentSec = tmpCurrentSec.toString();
+    }
   }
 }

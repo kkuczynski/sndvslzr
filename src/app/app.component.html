@@ -20,12 +20,14 @@
   <audio id="sound" class="sound" controls>   
     </audio>
     <div class=playlist id=playlist>
-      <div [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'"*ngFor="let song of getPlaylistService(); index as i" class=song id={{i}}song (click) = loadSong(i)>
-        {{ song }}
+      <div class=song [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'"*ngFor="let song of getPlaylistService(); index as i">
+       <button *ngIf='playlistLength>1' (click)='delete(i)' [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class="delete"><i class="fa fa-times" aria-hidden="true"></i></button>      
+                   
+       <label class=songName id={{i}}song (click) = loadSongFromPlaylist(i)> {{ song }}</label>
       </div>
       
     </div>
-  </div>
+  
   <div class=tree><img class=palm id= palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'></div>
   <div class= center id=center>    
     
@@ -44,8 +46,15 @@
     
       <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" *ngIf="getSound()" type="range" min="0" max={{getSound().duration}} value={{getSound().currentTime}} class="slider active" id="timeSlider">
       <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'"*ngIf="!getSound()" type="range" min="0" max="100"  class="slider" id="timeSlider" disabled>     
-    
+
+      <div *ngIf="getSound()" class=times id=times>{{times.currentMin}}:{{times.currentSec}}&nbsp;/&nbsp;{{times.durationMin}}:{{times.durationSec}}</div>
+<div>
+      <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=mute id=mute (click)=mute()><i class="fa fa-volume-off " aria-hidden="true"><b class=slash>/</b></i></button>
+      <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" step="0.01" type="range" min="0" max=1 value={{volume}} class="volumeSlider" id="volumeSlider">
+      <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=speaker id=speaker (click)=maxVolume()><i class="fa fa-volume-up" aria-hidden="true"></i></button>
+    </div>
   
   
   
+</div>
 </div>
