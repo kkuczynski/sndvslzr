@@ -92,17 +92,17 @@ export class AppComponent {
         this.loadSong(this.currentSongId);
       }
       if (this.sound) {
-        this.sound.addEventListener('playing', () => {
-          console.log('change');
+        this.sound.addEventListener('playing', () => {          
           this.movedOn = false;
         })
         this.sound.addEventListener('ended', () => {
-          if (!this.movedOn) {
-            console.log('willmoveon')
+          if (!this.movedOn) {            
             this.moveOn();
-            this.movedOn = true;
-            return;
+            this.movedOn = true;            
           }
+        })
+        this.sound.addEventListener('timeupdate', () => {
+          document.getElementById('timeSlider').setAttribute('value', this.sound.currentTime.toString());
         })
         document.getElementById('timeSlider').addEventListener('input', (event) => {
           this.setTime(event);
