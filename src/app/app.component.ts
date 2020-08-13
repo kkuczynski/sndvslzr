@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NightModeService } from './services/night-mode.service';
 import { UrlObject } from 'url';
+import { CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,15 @@ export class AppComponent {
     this.volumeSlider = document.getElementById('volumeSlider');
     this.handleVolume();
 
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    let tmpCurrentSong = this.playlist[this.currentSongId];
+    moveItemInArray(this.playlistSrc, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.playlist, event.previousIndex, event.currentIndex);
+   
+    this.currentSongId = this.playlist.findIndex(song=>song===tmpCurrentSong);
+    
   }
 
   handleVolume() {

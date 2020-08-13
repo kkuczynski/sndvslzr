@@ -19,8 +19,8 @@
   </button>
   <audio id="sound" class="sound" controls>   
     </audio>
-    <div class=playlist id=playlist>
-      <div class=song [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'"*ngFor="let song of getPlaylistService(); index as i">
+    <div cdkDropList (cdkDropListDropped)="drop($event)" class=playlist id=playlist>
+      <div cdkDrag class=song [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'"*ngFor="let song of getPlaylistService(); index as i">
        <button *ngIf='playlistLength>1' (click)='delete(i)' [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class="delete"><i class="fa fa-times" aria-hidden="true"></i></button>      
                    
        <label class=songName id={{i}}song (click) = loadSongFromPlaylist(i)> {{ song }}</label>
