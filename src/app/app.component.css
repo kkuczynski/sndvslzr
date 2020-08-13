@@ -1,3 +1,7 @@
+.playlistButtons{
+ position: absolute;
+ transform: translate(50px,0);
+}
 
 button.night {
     border-width: 0px;
@@ -139,7 +143,15 @@ img.palm {
 }
 .times {
     position: absolute;
-    transform: translate(100px,25px);
+    transform: translate(95px,30px);
+    font-weight: bold;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 .slider {
     -webkit-appearance: none; 
@@ -251,7 +263,7 @@ img.palm {
     right: 0;
     bottom: 0;
     max-height: 90%;
-    width: 25%;
+    width: 40px;
     overflow-x: hidden;
     display: block;
     white-space: nowrap;
@@ -266,7 +278,9 @@ img.palm {
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
     border-radius: 4px;
-    box-shadow: 0px 0px 10px rgba(250,125,250, 0.6)
+    box-shadow: 0px 0px 10px rgba(250,125,250, 0.6);
+    transition-duration: 0.5s;
+    opacity: 0.6;
 }
 .cdk-drag-preview {
     box-sizing: border-box;
@@ -291,8 +305,7 @@ img.palm {
   
 .song{
    
-    background: rgba(0,0,0,0.15);
-    text-overflow: ellipsis; 
+    background: rgba(0,0,0,0.15);    
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -328,13 +341,24 @@ img.palm {
     background: none;
     outline: none;
     border: none;
-    font-size: 18px; 
+    font-size: 17px; 
     cursor: pointer;
+    opacity: 0.5;
+    transition-duration: 0.5s;
+    width: 22px;
+}
+.disabledDelete {
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 17px; 
+    width: 22px;
+    opacity: 0;  
 }
 
-
 .delete:hover{
-    text-shadow: 0px 0px 5px rgb(250,125,250);       
+    text-shadow: 0px 0px 5px rgb(250,125,250);      
+    opacity: 1; 
 }
 
 
@@ -351,6 +375,24 @@ input[type="file"] {
     filter: invert(61%) sepia(76%) saturate(650%) hue-rotate(259deg) brightness(82%) contrast(89%);
 }
 
+.title {
+    position: absolute;
+    width: 800px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    align-self: center;
+    text-align: center;
+    transform: translate(-250px,-100px);
+    font-weight: bold;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
 .sound {
     position: absolute;
     bottom: 0;
@@ -368,6 +410,13 @@ input[type="file"] {
     transform: translate(15px,87px);
     animation-duration: 1s;
     outline: none;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 .mute:hover{
     text-shadow: 0px 0px 20px rgb(250,125,250);
@@ -387,6 +436,7 @@ input[type="file"] {
 }
 
 .play {    
+    height: 296px;
     font-size: 250px ;
     border: solid;
     border-radius: 300px;
@@ -400,6 +450,7 @@ input[type="file"] {
     text-align: center;
 }
 .pause {
+    height: 296px;
     font-size: 200px;
     border: solid;
     border-radius: 300px;
@@ -525,6 +576,7 @@ input[type="file"] {
     transform: translateX(-50%);    
     background: none;
     animation-duration: 1s;
+    height: 300px;
 }
 .play:hover {
     text-shadow: 0px 0px 20px rgb(250,125,250);

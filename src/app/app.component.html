@@ -13,16 +13,25 @@
       <div class=music><i class="fa fa-music" aria-hidden="true"></i></div>
     </label>
   </div>
+  <div class=playlistButtons>
+    <button (click)="save()">dupa</button>
+  </div>
   <button class=night (click)=changeNightMode()>
     <i id=sun [ngClass]="(getNightMode()===1)?'pickedSun':'notPickedSun'" class="fa fa-sun-o" aria-hidden="true"></i>
     <i id=moon [ngClass]="(getNightMode()===0)?'pickedMoon':'notPickedMoon'" class="fa fa-moon-o" aria-hidden="true"></i>
   </button>
   <audio id="sound" class="sound" controls>   
     </audio>
-    <div cdkDropList (cdkDropListDropped)="drop($event)" class=playlist id=playlist>
-      <div cdkDrag class=song [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'"*ngFor="let song of getPlaylistService(); index as i">
-       <button *ngIf='playlistLength>1' (click)='delete(i)' [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class="delete"><i class="fa fa-times" aria-hidden="true"></i></button>      
-                   
+    <div cdkDropList (cdkDropListDropped)="drop($event)" class=playlist id=playlist (mouseenter)=playlistOnMouseEnter() (mouseleave)=playlistOnMouseLeave() >
+      <div (mouseover)="mouseOnSong(i)" (mouseleave)="mouseOnSong(-1)"  cdkDrag class=song [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'"*ngFor="let song of getPlaylistService(); index as i">
+
+       <button *ngIf='playlistLength>1 && mouseOverSong===i' id={{i}}delete (click)='delete(i)' 
+         [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class="delete">
+         <i class="fa fa-trash-o" aria-hidden="true"></i>
+        </button>           
+        <button class=disabledDelete
+          *ngIf='mouseOverSong!==i || playlistLength===1'> <i class="fa fa-trash-o" aria-hidden="true"></i>
+        </button>
        <label class=songName id={{i}}song (click) = loadSongFromPlaylist(i)> {{ song }}</label>
       </div>
       
@@ -30,7 +39,7 @@
   
   <div class=tree><img class=palm id= palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'></div>
   <div class= center id=center>    
-    
+    <div class=title id=title>{{currentTitle}}</div>
     <button *ngIf=!shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffle id=shuffle (click)=changeShuffle()><i class="fa fa-random" aria-hidden="true"></i></button>
     <button *ngIf=shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffleChecked id=shuffle (click)=changeShuffle()><i class="fa fa-random" aria-hidden="true"></i></button>
     

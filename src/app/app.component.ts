@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NightModeService } from './services/night-mode.service';
 import { UrlObject } from 'url';
-import { CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +25,8 @@ export class AppComponent {
   public times: Times = new Times;
   public volume: number = 1;
   private volumeSlider;
+  public mouseOverSong = -1;
+  public currentTitle = '';
 
   constructor() {
     this.nightMode = new NightModeService();
@@ -35,13 +37,26 @@ export class AppComponent {
 
   }
 
+  mouseOnSong(i: number) {
+    this.mouseOverSong = i;
+  }
+  playlistOnMouseEnter() {
+    console.log('mouseover');
+    document.getElementById('playlist').style.width = '25%';
+    document.getElementById('playlist').style.opacity = '1';
+  }
+  playlistOnMouseLeave() {
+    console.log('mouseover');
+    document.getElementById('playlist').style.width = '40px';
+    document.getElementById('playlist').style.opacity = '0.6';
+  }
   drop(event: CdkDragDrop<string[]>) {
     let tmpCurrentSong = this.playlist[this.currentSongId];
     moveItemInArray(this.playlistSrc, event.previousIndex, event.currentIndex);
     moveItemInArray(this.playlist, event.previousIndex, event.currentIndex);
-   
-    this.currentSongId = this.playlist.findIndex(song=>song===tmpCurrentSong);
-    
+
+    this.currentSongId = this.playlist.findIndex(song => song === tmpCurrentSong);
+
   }
 
   handleVolume() {
@@ -111,31 +126,32 @@ export class AppComponent {
       this.setTime(event);
     })
     this.sound.volume = this.volume;
+    this.currentTitle = this.playlist[this.currentSongId];
   }
   delete(i: number) {
     if (this.playlistLength > 1) {
-    this.playlist.splice(i, 1);
-    this.playlistSrc.splice(i, 1);
-    this.playlistLength--;
+      this.playlist.splice(i, 1);
+      this.playlistSrc.splice(i, 1);
+      this.playlistLength--;
     }
   }
-  moveUp(){
+  moveUp() {
     console.log('up');
   }
-  moveDown(){
+  moveDown() {
     console.log('down');
   }
   mute() {
     this.volume = 0;
-    if(this.sound) {
-    this.sound.volume = this.volume;
+    if (this.sound) {
+      this.sound.volume = this.volume;
     }
   }
 
   maxVolume() {
     this.volume = 1;
-    if(this.sound) {
-    this.sound.volume = this.volume;
+    if (this.sound) {
+      this.sound.volume = this.volume;
     }
   }
   delay(ms: number) {
@@ -338,6 +354,22 @@ export class AppComponent {
   getCurrentSongId(): number {
     return this.currentSongId;
   }
+
+  save() {
+    const json1 = JSON.stringify(this.playlist);
+    const json2 = JSON.stringify(this.playlistSrc);
+    var dataStr = "data:object/json;charset=utf-8," + encodeURIComponent(json1) + encodeURIComponent(json2);
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "playlist.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+
+  load() {
+
+  }
 }
 
 class Times {
@@ -365,4 +397,5 @@ class Times {
       this.currentSec = tmpCurrentSec.toString();
     }
   }
+
 }
