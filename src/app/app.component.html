@@ -1,69 +1,171 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<!-- <div id=bar class=navBar [ngClass]="(getNightMode()===0)?'nightSecondary':'daySecondary'"> -->
-
-
-
-<!-- </div> -->
 <div id=body class=body [ngClass]="(getNightMode()===0)?'night':'day'">
+
   <div class=buttonlike>
+
     <label id="music" class="custom-file-upload" border-style: solid>
-      <input type="file" id=addfile accept="audio/*" multiple (change)="onChange($event.target.files)">
+
+      <input type="file" id=addfile accept="audio/*" multiple (change)="addSongs($event.target.files)">
+
       <div class=plus><i class="fa fa-plus" aria-hidden="true"></i> </div>
+
       <div class=music><i class="fa fa-music" aria-hidden="true"></i></div>
+
     </label>
+
   </div>
+
   <div class=playlistButtons>
+
     <button (click)="save()">dupa</button>
+
   </div>
-  <button class=night (click)=changeNightMode()>
-    <i id=sun [ngClass]="(getNightMode()===1)?'pickedSun':'notPickedSun'" class="fa fa-sun-o" aria-hidden="true"></i>
-    <i id=moon [ngClass]="(getNightMode()===0)?'pickedMoon':'notPickedMoon'" class="fa fa-moon-o" aria-hidden="true"></i>
-  </button>
-  <audio id="sound" class="sound" controls>   
-    </audio>
-    <div cdkDropList (cdkDropListDropped)="drop($event)" class=playlist id=playlist (mouseenter)=playlistOnMouseEnter() (mouseleave)=playlistOnMouseLeave() >
-      <div (mouseover)="mouseOnSong(i)" (mouseleave)="mouseOnSong(-1)"  cdkDrag class=song [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'"*ngFor="let song of getPlaylistService(); index as i">
 
-       <button *ngIf='playlistLength>1 && mouseOverSong===i' id={{i}}delete (click)='delete(i)' 
-         [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class="delete">
-         <i class="fa fa-trash-o" aria-hidden="true"></i>
-        </button>           
-        <button class=disabledDelete
-          *ngIf='mouseOverSong!==i || playlistLength===1'> <i class="fa fa-trash-o" aria-hidden="true"></i>
-        </button>
-       <label class=songName id={{i}}song (click) = loadSongFromPlaylist(i)> {{ song }}</label>
-      </div>
+  <div class=addPlaylistFile>
+
+    <label id="addPlaylistFile" class="custom-file-upload" border-style: solid>
       
-    </div>
-  
-  <div class=tree><img class=palm id= palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'></div>
-  <div class= center id=center>    
-    <div class=title id=title>{{currentTitle}}</div>
-    <button *ngIf=!shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffle id=shuffle (click)=changeShuffle()><i class="fa fa-random" aria-hidden="true"></i></button>
-    <button *ngIf=shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffleChecked id=shuffle (click)=changeShuffle()><i class="fa fa-random" aria-hidden="true"></i></button>
-    
-    <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=backward id=backward (click)=stepBackward()><i class="fa fa-step-backward" aria-hidden="true"></i></button>
-    
-    <button *ngIf=isPaused() [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=play id=play (click)=play()><i class="fa fa-play" aria-hidden="true"></i></button>
-    <button *ngIf=!isPaused() [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=pause id=play (click)=play()><i class="fa fa-pause" aria-hidden="true"></i></button>
-    
-    <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=forward id=forward (click)=stepForward()><i class="fa fa-step-forward" aria-hidden="true"></i></button>
-    
-    <button *ngIf=!loop [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=loop id=loop (click)=changeLoop()><i class="fa fa-repeat" aria-hidden="true"></i></button>
-    <button *ngIf=loop [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=loopChecked id=loop (click)=changeLoop()><i class="fa fa-repeat" aria-hidden="true"></i></button>
-    
-      <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" *ngIf="getSound()" type="range" min="0" max={{getSound().duration}} value={{getSound().currentTime}} class="slider active" id="timeSlider">
-      <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'"*ngIf="!getSound()" type="range" min="0" max="100"  class="slider" id="timeSlider" disabled>     
+      <input type="file" id=addfile accept=".playlist" (change)="addPlaylist($event.target.files)">
 
-      <div *ngIf="getSound()" class=times id=times>{{times.currentMin}}:{{times.currentSec}}&nbsp;/&nbsp;{{times.durationMin}}:{{times.durationSec}}</div>
-<div>
-      <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=mute id=mute (click)=mute()><i class="fa fa-volume-off " aria-hidden="true"><b class=slash>/</b></i></button>
-      <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" step="0.01" type="range" min="0" max=1 value={{volume}} class="volumeSlider" id="volumeSlider">
-      <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=speaker id=speaker (click)=maxVolume()><i class="fa fa-volume-up" aria-hidden="true"></i></button>
+      <div class=plus><i class="fa fa-plus" aria-hidden="true"></i> </div>
+
+      <div class=list><i class="fa fa-list" aria-hidden="true"></i></div>
+
+    </label>
+
+  </div>
+
+  <button class=night (click)=changeNightMode()>
+
+    <i id=sun [ngClass]="(getNightMode()===1)?'pickedSun':'notPickedSun'" class="fa fa-sun-o" aria-hidden="true"></i>
+
+    <i id=moon [ngClass]="(getNightMode()===0)?'pickedMoon':'notPickedMoon'" class="fa fa-moon-o"
+      aria-hidden="true"></i>
+
+  </button>
+
+  <audio id="sound" class="sound" controls>
+
+  </audio>
+
+  <div cdkDropList (cdkDropListDropped)="drop($event)" class=playlist id=playlist (mouseenter)=playlistOnMouseEnter()
+    (mouseleave)=playlistOnMouseLeave()>
+
+    <div (mouseover)="mouseOnSong(i)" (mouseleave)="mouseOnSong(-1)" cdkDrag class=song
+      [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'" *ngFor="let song of getPlaylistService(); index as i">
+
+      <button *ngIf='playlistLength>1 && mouseOverSong===i' id={{i}}delete (click)='delete(i)'
+        [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class="delete">
+
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+
+      </button>
+
+      <button class=disabledDelete *ngIf='mouseOverSong!==i || playlistLength===1'>
+
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+
+      </button>
+
+      <label class=songName id={{i}}song (click)=loadSongFromPlaylist(i)> {{ song }}</label>
+
     </div>
-  
-  
-  
-</div>
+
+  </div>
+
+  <div class=tree><img class=palm id=palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'></div>
+
+  <div class=center id=center>
+
+    <div class=title id=title>{{currentTitle}}</div>
+
+    <button *ngIf=!shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffle id=shuffle
+      (click)=changeShuffle()>
+
+      <i class="fa fa-random" aria-hidden="true"></i>
+
+    </button>
+
+    <button *ngIf=shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffleChecked id=shuffle
+      (click)=changeShuffle()>
+
+      <i class="fa fa-random" aria-hidden="true"></i>
+
+    </button>
+
+    <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=backward id=backward
+      (click)=stepBackward()>
+
+      <i class="fa fa-step-backward" aria-hidden="true"></i>
+
+    </button>
+
+    <button *ngIf=isPaused() [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=play id=play
+      (click)=play()>
+
+      <i class="fa fa-play" aria-hidden="true"></i>
+
+    </button>
+
+    <button *ngIf=!isPaused() [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=pause id=play
+      (click)=play()>
+
+      <i class="fa fa-pause" aria-hidden="true"></i>
+
+    </button>
+
+    <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=forward id=forward (click)=stepForward()>
+
+      <i class="fa fa-step-forward" aria-hidden="true"></i>
+
+    </button>
+
+    <button *ngIf=!loop [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=loop id=loop
+      (click)=changeLoop()>
+
+      <i class="fa fa-repeat" aria-hidden="true"></i>
+
+    </button>
+
+    <button *ngIf=loop [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=loopChecked id=loop
+      (click)=changeLoop()>
+
+      <i class="fa fa-repeat" aria-hidden="true"></i>
+
+    </button>
+
+    <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" *ngIf="getSound()" type="range" min="0"
+      max={{getSound().duration}} value={{getSound().currentTime}} class="slider active" id="timeSlider">
+
+    <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" *ngIf="!getSound()" type="range" min="0" max="100"
+      class="slider" id="timeSlider" disabled>
+
+    <div *ngIf="getSound()" class=times id=times>
+      {{times.currentMin}}:{{times.currentSec}}&nbsp;/&nbsp;{{times.durationMin}}:{{times.durationSec}}</div>
+
+    <div>
+      <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=mute id=mute (click)=mute()>
+
+        <i class="fa fa-volume-off " aria-hidden="true">
+
+          <b class=slash>/</b>
+
+        </i>
+
+      </button>
+
+      <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" step="0.01" type="range" min="0" max=1
+        value={{volume}} class="volumeSlider" id="volumeSlider">
+
+      <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=speaker id=speaker (click)=maxVolume()>
+
+        <i class="fa fa-volume-up" aria-hidden="true"> </i>
+
+      </button>
+
+    </div>
+
+  </div>
+
 </div>

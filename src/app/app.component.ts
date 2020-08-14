@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NightModeService } from './services/night-mode.service';
 import { UrlObject } from 'url';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { JsonPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -40,30 +41,28 @@ export class AppComponent {
   mouseOnSong(i: number) {
     this.mouseOverSong = i;
   }
+
   playlistOnMouseEnter() {
-    console.log('mouseover');
     document.getElementById('playlist').style.width = '25%';
     document.getElementById('playlist').style.opacity = '1';
   }
+
   playlistOnMouseLeave() {
-    console.log('mouseover');
     document.getElementById('playlist').style.width = '40px';
     document.getElementById('playlist').style.opacity = '0.6';
   }
+
   drop(event: CdkDragDrop<string[]>) {
     let tmpCurrentSong = this.playlist[this.currentSongId];
     moveItemInArray(this.playlistSrc, event.previousIndex, event.currentIndex);
     moveItemInArray(this.playlist, event.previousIndex, event.currentIndex);
-
     this.currentSongId = this.playlist.findIndex(song => song === tmpCurrentSong);
-
   }
 
   handleVolume() {
     this.volumeSlider.addEventListener('input', (event) => {
       this.volume = event.target.value;
       if (this.sound) {
-        console.log(this.volume);
         this.sound.volume = this.volume;
       }
     });
@@ -76,6 +75,7 @@ export class AppComponent {
   getSound(): HTMLAudioElement {
     return this.sound;
   }
+
   addToPlaylistSrc(file) {
     this.playlistSrc.push(file);
   }
@@ -95,6 +95,7 @@ export class AppComponent {
       return this.paused
     }
   }
+
   changeLoop() {
     if (this.loop && !this.shuffle) {
       this.loop = false;
@@ -102,6 +103,7 @@ export class AppComponent {
       this.loop = true;
     }
   }
+
   changeShuffle() {
     if (this.shuffle) {
       this.shuffle = false;
@@ -115,6 +117,7 @@ export class AppComponent {
     this.loadSong(i);
     this.play();
   }
+
   loadSong(index: number) {
     this.currentSongId = index;
     this.sound = new Audio();
@@ -128,6 +131,7 @@ export class AppComponent {
     this.sound.volume = this.volume;
     this.currentTitle = this.playlist[this.currentSongId];
   }
+
   delete(i: number) {
     if (this.playlistLength > 1) {
       this.playlist.splice(i, 1);
@@ -135,12 +139,7 @@ export class AppComponent {
       this.playlistLength--;
     }
   }
-  moveUp() {
-    console.log('up');
-  }
-  moveDown() {
-    console.log('down');
-  }
+
   mute() {
     this.volume = 0;
     if (this.sound) {
@@ -154,24 +153,21 @@ export class AppComponent {
       this.sound.volume = this.volume;
     }
   }
+
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   play(id?: number): boolean {
-    console.log(0);
     if (this.playlist.length === 0) {
       document.getElementById('addfile').click();
-      console.log(1)
     }
     else {
       if (!this.sound) {
         this.loadSong(id ? id : this.currentSongId);
-        console.log(2)
       }
 
       if (this.sound) {
-        console.log(4)
         this.sound.addEventListener('playing', () => {
           this.times.setDuration(this.sound.duration);
           this.times.updateCurrent(this.sound.currentTime);
@@ -180,31 +176,26 @@ export class AppComponent {
             this.setTime(event);
           })
         })
-        console.log(5)
         this.sound.addEventListener('ended', () => {
           if (!this.movedOn) {
             this.moveOn();
             this.movedOn = true;
           }
         })
-        console.log(6)
         this.sound.addEventListener('timeupdate', () => {
           document.getElementById('timeSlider').setAttribute('value', this.sound.currentTime.toString());
           this.times.updateCurrent(this.sound.currentTime);
         })
-        console.log(7)
         document.getElementById('timeSlider').addEventListener('input', (event) => {
           this.setTime(event);
         });
 
       }
       if (this.paused) {
-        console.log(8)
         this.sound.play()
         this.paused = false;
         return true;
       } else {
-        console.log(9)
         this.sound.pause();
         this.paused = true;
         return true;
@@ -213,29 +204,74 @@ export class AppComponent {
   }
 
   setTime(event) {
-    console.log('set');
     this.sound.currentTime = event.target.value;
   }
-
-  public onChange(fileList: FileList): void {
+  public addSongs(fileList: FileList): void {
     for (let i = 0; i < fileList.length; i++) {
       this.addToPlaylistSrc(URL.createObjectURL(fileList[i]));
-      let file = fileList[i];
-      console.log(file);
+      let file = fileList[i];      
       this.addToPlaylist(file);
       this.playlistLength++;
     }
   }
 
-  refreshSlider() {
-    console.log('refreshing');
+  public addPlaylist(fileList: FileList) {  
+    if(fileList.length === 1) {     
+      let file = fileList[0];      
+      let startIndex = 0;
+      let endIndex = 0;
+      let firstEof = 0;
+      let songName = '';
+      let songSrc = '';
+      let currentChar = '';
+      let gatherData = false;
+      let lala = Promise.resolve(file.text()).then(fileContent => {
+          console.log(fileContent)          
+           firstEof =  fileContent.search(']');
+           for (let index = 0; index < firstEof; index++) {
+              currentChar = fileContent.charAt(index);
+              if (currentChar === '"') {
+                if (gatherData) {
+                  gatherData = false;
+                } else {
+                  gatherData = true
+                }
+              }
+              else if (gatherData) {
+                songName+=currentChar;
+              }
+              if(!gatherData && songName.length > 0) {
+                this.playlist.push(songName);
+                console.log(songName);
+                songName = '';
+              }
+           }
+           for (let index = firstEof+1; index < fileContent.length; index++) {
+            currentChar = fileContent.charAt(index);
+            if (currentChar === '"') {
+              if (gatherData) {
+                gatherData = false;
+              } else {
+                gatherData = true
+              }
+            }
+            else if (gatherData) {
+              songSrc+=currentChar;
+            }
+            if(!gatherData && songSrc.length > 0) {
+              this.playlistSrc.push(songSrc as unknown as UrlObject);
+              console.log(songSrc);
+              songSrc = '';
+            }
+           }
+          
+      });
+      console.log(lala);
+    }
   }
 
   moveOn() {
-
     if (this.currentSongId < this.playlistLength - 1) {
-      console.log(this.currentSongId);
-      console.log(this.playlistLength);
       if (!this.shuffle) {
         this.currentSongId++;
       } else {
@@ -259,8 +295,8 @@ export class AppComponent {
         this.play();
       }
     }
-
   }
+
   stepForward() {
     if (this.playlist.length > 0) {
       if (this.currentSongId < this.playlistLength - 1) {
@@ -275,6 +311,7 @@ export class AppComponent {
 
     }
   }
+
   stepBackward() {
     if (this.playlist.length > 0) {
       if (this.currentSongId > 0) {
@@ -284,12 +321,10 @@ export class AppComponent {
         this.currentSongId = this.playlistLength - 1;
       }
       this.loadSong(this.currentSongId);
-      console.log(this.paused);
-
       this.play();
-
     }
   }
+
   getPlaylistService(): string[] {
     return this.getPlaylist();
   }
@@ -348,7 +383,6 @@ export class AppComponent {
 
   getNightMode(): number {
     return this.nightMode.getNightMode();
-
   }
 
   getCurrentSongId(): number {
@@ -356,12 +390,14 @@ export class AppComponent {
   }
 
   save() {
+    const currentDate = new Date();
+    const dateString = currentDate.getMonth() + '-' + currentDate.getDate() + '-' + currentDate.getFullYear();
     const json1 = JSON.stringify(this.playlist);
     const json2 = JSON.stringify(this.playlistSrc);
     var dataStr = "data:object/json;charset=utf-8," + encodeURIComponent(json1) + encodeURIComponent(json2);
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "playlist.json");
+    downloadAnchorNode.setAttribute("download", dateString + ".playlist");
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
@@ -397,5 +433,4 @@ class Times {
       this.currentSec = tmpCurrentSec.toString();
     }
   }
-
 }

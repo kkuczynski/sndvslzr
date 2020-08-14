@@ -21,6 +21,16 @@ button.night {
     width: fit-content;
     height: 5%;
 }
+
+.addPlaylistFile{
+    font-size: 250%;    
+    left: 100px;
+    cursor: pointer;
+    position: absolute; 
+    width: fit-content;
+    height: 5%;
+}
+
 .custom-file-upload {
     margin-left: 10px;
     cursor: pointer;
@@ -40,6 +50,11 @@ button.night {
 .music {
     position: absolute;
     left:18px;
+}
+.list {
+    position: absolute;
+    left: 27px;
+    top: 4px;
 }
 i{
     width: 50%;    
