@@ -215,60 +215,60 @@ export class AppComponent {
     }
   }
 
-  public addPlaylist(fileList: FileList) {  
-    if(fileList.length === 1) {     
-      let file = fileList[0];      
-      let startIndex = 0;
-      let endIndex = 0;
-      let firstEof = 0;
-      let songName = '';
-      let songSrc = '';
-      let currentChar = '';
-      let gatherData = false;
-      let lala = Promise.resolve(file.text()).then(fileContent => {
-          console.log(fileContent)          
-           firstEof =  fileContent.search(']');
-           for (let index = 0; index < firstEof; index++) {
-              currentChar = fileContent.charAt(index);
-              if (currentChar === '"') {
-                if (gatherData) {
-                  gatherData = false;
-                } else {
-                  gatherData = true
-                }
-              }
-              else if (gatherData) {
-                songName+=currentChar;
-              }
-              if(!gatherData && songName.length > 0) {
-                this.playlist.push(songName);
-                console.log(songName);
-                songName = '';
-              }
-           }
-           for (let index = firstEof+1; index < fileContent.length; index++) {
-            currentChar = fileContent.charAt(index);
-            if (currentChar === '"') {
-              if (gatherData) {
-                gatherData = false;
-              } else {
-                gatherData = true
-              }
-            }
-            else if (gatherData) {
-              songSrc+=currentChar;
-            }
-            if(!gatherData && songSrc.length > 0) {
-              this.playlistSrc.push(songSrc as unknown as UrlObject);
-              console.log(songSrc);
-              songSrc = '';
-            }
-           }
+  // public addPlaylist(fileList: FileList) {  
+  //   if(fileList.length === 1) {     
+  //     let file = fileList[0];      
+  //     let startIndex = 0;
+  //     let endIndex = 0;
+  //     let firstEof = 0;
+  //     let songName = '';
+  //     let songSrc = '';
+  //     let currentChar = '';
+  //     let gatherData = false;
+  //     let lala = Promise.resolve(file.text()).then(fileContent => {
+  //         console.log(fileContent)          
+  //          firstEof =  fileContent.search(']');
+  //          for (let index = 0; index < firstEof; index++) {
+  //             currentChar = fileContent.charAt(index);
+  //             if (currentChar === '"') {
+  //               if (gatherData) {
+  //                 gatherData = false;
+  //               } else {
+  //                 gatherData = true
+  //               }
+  //             }
+  //             else if (gatherData) {
+  //               songName+=currentChar;
+  //             }
+  //             if(!gatherData && songName.length > 0) {
+  //               this.playlist.push(songName);
+  //               console.log(songName);
+  //               songName = '';
+  //             }
+  //          }
+  //          for (let index = firstEof+1; index < fileContent.length; index++) {
+  //           currentChar = fileContent.charAt(index);
+  //           if (currentChar === '"') {
+  //             if (gatherData) {
+  //               gatherData = false;
+  //             } else {
+  //               gatherData = true
+  //             }
+  //           }
+  //           else if (gatherData) {
+  //             songSrc+=currentChar;
+  //           }
+  //           if(!gatherData && songSrc.length > 0) {
+  //             this.playlistSrc.push(songSrc as unknown as UrlObject);
+  //             console.log(songSrc);
+  //             songSrc = '';
+  //           }
+  //          }
           
-      });
-      console.log(lala);
-    }
-  }
+  //     });
+  //     console.log(lala);
+  //   }
+  // }
 
   moveOn() {
     if (this.currentSongId < this.playlistLength - 1) {
@@ -389,23 +389,19 @@ export class AppComponent {
     return this.currentSongId;
   }
 
-  save() {
-    const currentDate = new Date();
-    const dateString = currentDate.getMonth() + '-' + currentDate.getDate() + '-' + currentDate.getFullYear();
-    const json1 = JSON.stringify(this.playlist);
-    const json2 = JSON.stringify(this.playlistSrc);
-    var dataStr = "data:object/json;charset=utf-8," + encodeURIComponent(json1) + encodeURIComponent(json2);
-    var downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", dateString + ".playlist");
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
-  }
-
-  load() {
-
-  }
+  // save() {
+  //   const currentDate = new Date();
+  //   const dateString = currentDate.getMonth() + '-' + currentDate.getDate() + '-' + currentDate.getFullYear();
+  //   const json1 = JSON.stringify(this.playlist);
+  //   const json2 = JSON.stringify(this.playlistSrc);
+  //   var dataStr = "data:object/json;charset=utf-8," + encodeURIComponent(json1) + encodeURIComponent(json2);
+  //   var downloadAnchorNode = document.createElement('a');
+  //   downloadAnchorNode.setAttribute("href", dataStr);
+  //   downloadAnchorNode.setAttribute("download", dateString + ".playlist");
+  //   document.body.appendChild(downloadAnchorNode);
+  //   downloadAnchorNode.click();
+  //   downloadAnchorNode.remove();
+  // }
 }
 
 class Times {
