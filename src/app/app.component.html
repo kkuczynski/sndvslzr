@@ -52,7 +52,10 @@
 
 
 
-  <div class=tree><img class=palm id=palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'></div>
+  <div class=tree>
+    <!-- <img class=palm id=palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'> -->
+    <a href="https://ibb.co/Lgkmd8y"><img src="https://i.ibb.co/jw6mkTY/palm.png" class=palm id=palm [ngClass]="(getNightMode()===0)?'night':'day'"></a>
+  </div>
 
   <div class=center id=center>
 
@@ -123,7 +126,8 @@
       {{times.currentMin}}:{{times.currentSec}}&nbsp;/&nbsp;{{times.durationMin}}:{{times.durationSec}}</div>
 
     <div>
-      <button [ngClass]="(getNightMode()===0)?'nightCenterNoShadow':'dayCenterNoShadow'" class=mute id=mute (click)=mute()>
+      <button [ngClass]="(getNightMode()===0)?'nightCenterNoShadow':'dayCenterNoShadow'" class=mute id=mute
+        (click)=mute()>
 
         <i class="fa fa-volume-off " aria-hidden="true">
 
@@ -136,7 +140,8 @@
       <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" step="0.01" type="range" min="0" max=1
         value={{volume}} class="volumeSlider" id="volumeSlider">
 
-      <button [ngClass]="(getNightMode()===0)?'nightCenterNoShadow':'dayCenterNoShadow'" class=speaker id=speaker (click)=maxVolume()>
+      <button [ngClass]="(getNightMode()===0)?'nightCenterNoShadow':'dayCenterNoShadow'" class=speaker id=speaker
+        (click)=maxVolume()>
 
         <i class="fa fa-volume-up" aria-hidden="true"> </i>
 
@@ -146,7 +151,8 @@
 
   </div>
 
-  <div *ngIf="playlistLength>0" [ngClass]="(getNightMode()===0)?'night':'day'" cdkDropList (cdkDropListDropped)="drop($event)" class=playlist id=playlist (mouseenter)=playlistOnMouseEnter()
+  <div *ngIf="playlistLength>0" [ngClass]="(getNightMode()===0)?'night':'day'" cdkDropList
+    (cdkDropListDropped)="drop($event)" class=playlist id=playlist (mouseenter)=playlistOnMouseEnter()
     (mouseleave)=playlistOnMouseLeave()>
 
     <div (mouseover)="mouseOnSong(i)" (mouseleave)="mouseOnSong(-1)" cdkDrag class=song

@@ -17,19 +17,19 @@ export class AppComponent {
   private _playlist: string[] = [];
   private _playlistSrc: UrlObject[] = [];
   private _sound: HTMLAudioElement = <HTMLAudioElement><unknown>document.getElementById('sound');
-  private paused = true;
-  private movedOn = false;
+  private _paused = true;
+  private _movedOn = false;
   public loop = false;
   public shuffle = false;
   public times: Times = new Times;
   public volume: number = 0.5;
-  private volumeSlider;
+  private _volumeSlider;
   public mouseOverSong = -1;
   public currentTitle = '';
-  private audioCtx;
+  private _audioCtx;
   public analyser;
   public dataArray;
-  private visualizerIsSet = false;
+  private _visualizerIsSet = false;
   public canvas;
   public ctx;
   public width;
@@ -39,10 +39,10 @@ export class AppComponent {
   public x;
   public bufferLength;
 
-
   constructor() {
     this._nightMode = new NightModeService();
   }
+
   ngOnInit(): void {
     this.handleVolume();
   }
@@ -58,16 +58,16 @@ export class AppComponent {
   }
 
   setVisualizer() {
-    if (!this.visualizerIsSet) {
-      this.audioCtx = new AudioContext();
-      let src = this.audioCtx.createMediaElementSource(this._sound);
-      this.analyser = this.audioCtx.createAnalyser();
+    if (!this._visualizerIsSet) {
+      this._audioCtx = new AudioContext();
+      let src = this._audioCtx.createMediaElementSource(this._sound);
+      this.analyser = this._audioCtx.createAnalyser();
       src.connect(this.analyser);
-      this.analyser.connect(this.audioCtx.destination);
+      this.analyser.connect(this._audioCtx.destination);
       this.analyser.fftSize = 256;
       this.bufferLength = this.analyser.frequencyBinCount;
       this.dataArray = new Uint8Array(this.bufferLength);
-      this.visualizerIsSet = true;
+      this._visualizerIsSet = true;
     }
   }
 
@@ -116,8 +116,8 @@ export class AppComponent {
   }
 
   handleVolume() {
-    this.volumeSlider = document.getElementById('volumeSlider');
-    this.volumeSlider.addEventListener('input', (event) => {
+    this._volumeSlider = document.getElementById('volumeSlider');
+    this._volumeSlider.addEventListener('input', (event) => {
       this.volume = event.target.value;
       if (this._sound) {
         this._sound.volume = this.volume;
@@ -149,7 +149,7 @@ export class AppComponent {
     if (!this._sound) {
       return true;
     } else {
-      return this.paused
+      return this._paused
     }
   }
 
@@ -181,7 +181,7 @@ export class AppComponent {
     this._sound = new Audio();
     this._sound = <HTMLAudioElement><unknown>document.getElementById('sound');
     this._sound.src = this._playlistSrc[index] as unknown as string;
-    this.paused = true;
+    this._paused = true;
     //this.sound.load;
     document.getElementById('timeSlider').addEventListener('input', (event) => {
       this.setTime(event);
@@ -231,15 +231,15 @@ export class AppComponent {
         this._sound.addEventListener('playing', () => {
           this.times.setDuration(this._sound.duration);
           this.times.updateCurrent(this._sound.currentTime);
-          this.movedOn = false;
+          this._movedOn = false;
           document.getElementById('timeSlider').addEventListener('input', (event) => {
             this.setTime(event);
           })
         })
         this._sound.addEventListener('ended', () => {
-          if (!this.movedOn) {
+          if (!this._movedOn) {
             this.moveOn();
-            this.movedOn = true;
+            this._movedOn = true;
           }
         })
         this._sound.addEventListener('timeupdate', () => {
@@ -253,18 +253,18 @@ export class AppComponent {
         });
 
       }
-      if (this.paused) {
+      if (this._paused) {
         this._sound.play()
         setInterval(() => {
 
           this.visualize();
 
         }, 1000 / 60);
-        this.paused = false;
+        this._paused = false;
         return true;
       } else {
         this._sound.pause();
-        this.paused = true;
+        this._paused = true;
         return true;
       }
     }
