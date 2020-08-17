@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div id=body class=body [ngClass]="(getNightMode()===0)?'night':'day'">
+  <canvas id="canvas"></canvas>
 
   <div class=buttonlike>
 
@@ -49,30 +50,7 @@
 
   </audio>
 
-  <div cdkDropList (cdkDropListDropped)="drop($event)" class=playlist id=playlist (mouseenter)=playlistOnMouseEnter()
-    (mouseleave)=playlistOnMouseLeave()>
 
-    <div (mouseover)="mouseOnSong(i)" (mouseleave)="mouseOnSong(-1)" cdkDrag class=song
-      [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'" *ngFor="let song of getPlaylistService(); index as i">
-
-      <button *ngIf='playlistLength>1 && mouseOverSong===i' id={{i}}delete (click)='delete(i)'
-        [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class="delete">
-
-        <i class="fa fa-trash-o" aria-hidden="true"></i>
-
-      </button>
-
-      <button class=disabledDelete *ngIf='mouseOverSong!==i || playlistLength===1'>
-
-        <i class="fa fa-trash-o" aria-hidden="true"></i>
-
-      </button>
-
-      <label class=songName id={{i}}song (click)=loadSongFromPlaylist(i)> {{ song }}</label>
-
-    </div>
-
-  </div>
 
   <div class=tree><img class=palm id=palm [ngClass]="(getNightMode()===0)?'night':'day'" src='../assets/palm.png'></div>
 
@@ -145,7 +123,7 @@
       {{times.currentMin}}:{{times.currentSec}}&nbsp;/&nbsp;{{times.durationMin}}:{{times.durationSec}}</div>
 
     <div>
-      <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=mute id=mute (click)=mute()>
+      <button [ngClass]="(getNightMode()===0)?'nightCenterNoShadow':'dayCenterNoShadow'" class=mute id=mute (click)=mute()>
 
         <i class="fa fa-volume-off " aria-hidden="true">
 
@@ -158,11 +136,36 @@
       <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" step="0.01" type="range" min="0" max=1
         value={{volume}} class="volumeSlider" id="volumeSlider">
 
-      <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=speaker id=speaker (click)=maxVolume()>
+      <button [ngClass]="(getNightMode()===0)?'nightCenterNoShadow':'dayCenterNoShadow'" class=speaker id=speaker (click)=maxVolume()>
 
         <i class="fa fa-volume-up" aria-hidden="true"> </i>
 
       </button>
+
+    </div>
+
+  </div>
+
+  <div *ngIf="playlistLength>0" [ngClass]="(getNightMode()===0)?'night':'day'" cdkDropList (cdkDropListDropped)="drop($event)" class=playlist id=playlist (mouseenter)=playlistOnMouseEnter()
+    (mouseleave)=playlistOnMouseLeave()>
+
+    <div (mouseover)="mouseOnSong(i)" (mouseleave)="mouseOnSong(-1)" cdkDrag class=song
+      [ngClass]="(getCurrentSongId()===i)?'songPicked':'song'" *ngFor="let song of getPlaylistService(); index as i">
+
+      <button *ngIf='playlistLength>1 && mouseOverSong===i' id={{i}}delete (click)='delete(i)'
+        [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class="delete">
+
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+
+      </button>
+
+      <button class=disabledDelete *ngIf='mouseOverSong!==i || playlistLength===1'>
+
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+
+      </button>
+
+      <label class=songName id=song{{i}} (click)=loadSongFromPlaylist(i)> {{ song }}</label>
 
     </div>
 

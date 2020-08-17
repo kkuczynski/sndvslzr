@@ -11,85 +11,142 @@ import { JsonPipe, DatePipe } from '@angular/common';
 })
 export class AppComponent {
   title = 'sndvslzr';
-  private nightMode: NightModeService;
+  private _nightMode: NightModeService;
   public currentSongId = 0;
-  private songLoaded = false;
-  private progressBar = document.getElementById('timeSlider');
   public playlistLength: number = 0;
-  private playlist: string[] = [];
-  private playlistSrc: UrlObject[] = [];
-  private sound: HTMLAudioElement = <HTMLAudioElement><unknown>document.getElementById('sound');
+  private _playlist: string[] = [];
+  private _playlistSrc: UrlObject[] = [];
+  private _sound: HTMLAudioElement = <HTMLAudioElement><unknown>document.getElementById('sound');
   private paused = true;
   private movedOn = false;
   public loop = false;
   public shuffle = false;
   public times: Times = new Times;
-  public volume: number = 1;
+  public volume: number = 0.5;
   private volumeSlider;
   public mouseOverSong = -1;
   public currentTitle = '';
+  private audioCtx;
+  public analyser;
+  public dataArray;
+  private visualizerIsSet = false;
+  public canvas;
+  public ctx;
+  public width;
+  public height;
+  public barHeight;
+  public barWidth;
+  public x;
+  public bufferLength;
+
 
   constructor() {
-    this.nightMode = new NightModeService();
+    this._nightMode = new NightModeService();
   }
   ngOnInit(): void {
-    this.volumeSlider = document.getElementById('volumeSlider');
     this.handleVolume();
-
   }
 
+  setCanvas() {
+    this.canvas = document.getElementById('canvas');
+    this.ctx = this.canvas.getContext("2d");
+    this.width = this.canvas.width;
+    this.height = this.canvas.height;
+    this.barWidth = (this.width / this.bufferLength) * 2.5;
+    this.barHeight;
+    this.x = 0;
+  }
+
+  setVisualizer() {
+    if (!this.visualizerIsSet) {
+      this.audioCtx = new AudioContext();
+      let src = this.audioCtx.createMediaElementSource(this._sound);
+      this.analyser = this.audioCtx.createAnalyser();
+      src.connect(this.analyser);
+      this.analyser.connect(this.audioCtx.destination);
+      this.analyser.fftSize = 256;
+      this.bufferLength = this.analyser.frequencyBinCount;
+      this.dataArray = new Uint8Array(this.bufferLength);
+      this.visualizerIsSet = true;
+    }
+  }
+
+  visualize() {
+    var x = 0;
+    this.analyser.getByteFrequencyData(this.dataArray);
+    if (!this._nightMode.getNightMode()) {
+      this.ctx.fillStyle = "rgba(15, 21, 44, 1)"
+    } else {
+      this.ctx.fillStyle = "rgba(130, 220, 236,1)"
+    }
+    this.ctx.fillRect(0, 0, this.width, this.height);
+
+    for (let i = 0; i < this.bufferLength; i++) {
+      this.barHeight = this.dataArray[i]/2.2;
+      let r = 150 + (this.barHeight * 4);
+      let g = 0 + (this.barHeight*0.7);
+      let b = 200 - (this.barHeight * 4);
+      this.ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",1)";
+      this.ctx.fillRect(x, this.height - this.barHeight, this.barWidth, this.barHeight);
+      x += this.barWidth + 1;
+    }
+  }
   mouseOnSong(i: number) {
     this.mouseOverSong = i;
   }
 
   playlistOnMouseEnter() {
     document.getElementById('playlist').style.width = '25%';
-    document.getElementById('playlist').style.opacity = '1';
+    document.getElementById('playlist').style.borderLeft = 'solid 2px';
+    document.getElementById('playlist').style.transitionDuration = '0.5s';
+    // document.getElementById('playlist').style.opacity = '0.9';
   }
 
   playlistOnMouseLeave() {
-    document.getElementById('playlist').style.width = '40px';
-    document.getElementById('playlist').style.opacity = '0.6';
+    document.getElementById('playlist').style.width = '30px';
+    document.getElementById('playlist').style.borderLeft = 'solid 20px';
+    // document.getElementById('playlist').style.opacity = '0.5';   
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    let tmpCurrentSong = this.playlist[this.currentSongId];
-    moveItemInArray(this.playlistSrc, event.previousIndex, event.currentIndex);
-    moveItemInArray(this.playlist, event.previousIndex, event.currentIndex);
-    this.currentSongId = this.playlist.findIndex(song => song === tmpCurrentSong);
+    let tmpCurrentSong = this._playlist[this.currentSongId];
+    moveItemInArray(this._playlistSrc, event.previousIndex, event.currentIndex);
+    moveItemInArray(this._playlist, event.previousIndex, event.currentIndex);
+    this.currentSongId = this._playlist.findIndex(song => song === tmpCurrentSong);
   }
 
   handleVolume() {
+    this.volumeSlider = document.getElementById('volumeSlider');
     this.volumeSlider.addEventListener('input', (event) => {
       this.volume = event.target.value;
-      if (this.sound) {
-        this.sound.volume = this.volume;
+      if (this._sound) {
+        this._sound.volume = this.volume;
       }
     });
 
   }
   addToPlaylist(file: File) {
-    this.playlist.push(file.name);
+    this._playlist.push(file.name);
   }
 
   getSound(): HTMLAudioElement {
-    return this.sound;
+    return this._sound;
   }
 
   addToPlaylistSrc(file) {
-    this.playlistSrc.push(file);
+    this._playlistSrc.push(file);
   }
 
   getPlaylist(): string[] {
-    return this.playlist;
+    return this._playlist;
   }
 
   getSongPercentage(): number {
-    return this.sound.currentTime / this.sound.duration * 100;
+    return this._sound.currentTime / this._sound.duration * 100;
   }
 
   getIsPaused(): boolean {
-    if (!this.sound) {
+    if (!this._sound) {
       return true;
     } else {
       return this.paused
@@ -116,41 +173,44 @@ export class AppComponent {
   loadSongFromPlaylist(i: number) {
     this.loadSong(i);
     this.play();
+
   }
 
   loadSong(index: number) {
     this.currentSongId = index;
-    this.sound = new Audio();
-    this.sound = <HTMLAudioElement><unknown>document.getElementById('sound');
-    this.sound.src = this.playlistSrc[index] as unknown as string;
+    this._sound = new Audio();
+    this._sound = <HTMLAudioElement><unknown>document.getElementById('sound');
+    this._sound.src = this._playlistSrc[index] as unknown as string;
     this.paused = true;
     //this.sound.load;
     document.getElementById('timeSlider').addEventListener('input', (event) => {
       this.setTime(event);
     })
-    this.sound.volume = this.volume;
-    this.currentTitle = this.playlist[this.currentSongId];
+    this._sound.volume = this.volume;
+    this.currentTitle = this._playlist[this.currentSongId];
+    this.setVisualizer();
+    this.setCanvas()
   }
 
   delete(i: number) {
     if (this.playlistLength > 1) {
-      this.playlist.splice(i, 1);
-      this.playlistSrc.splice(i, 1);
+      this._playlist.splice(i, 1);
+      this._playlistSrc.splice(i, 1);
       this.playlistLength--;
     }
   }
 
   mute() {
     this.volume = 0;
-    if (this.sound) {
-      this.sound.volume = this.volume;
+    if (this._sound) {
+      this._sound.volume = this.volume;
     }
   }
 
   maxVolume() {
     this.volume = 1;
-    if (this.sound) {
-      this.sound.volume = this.volume;
+    if (this._sound) {
+      this._sound.volume = this.volume;
     }
   }
 
@@ -159,32 +219,34 @@ export class AppComponent {
   }
 
   play(id?: number): boolean {
-    if (this.playlist.length === 0) {
+    if (this._playlist.length === 0) {
       document.getElementById('addfile').click();
     }
     else {
-      if (!this.sound) {
+      if (!this._sound) {
         this.loadSong(id ? id : this.currentSongId);
       }
 
-      if (this.sound) {
-        this.sound.addEventListener('playing', () => {
-          this.times.setDuration(this.sound.duration);
-          this.times.updateCurrent(this.sound.currentTime);
+      if (this._sound) {
+        this._sound.addEventListener('playing', () => {
+          this.times.setDuration(this._sound.duration);
+          this.times.updateCurrent(this._sound.currentTime);
           this.movedOn = false;
           document.getElementById('timeSlider').addEventListener('input', (event) => {
             this.setTime(event);
           })
         })
-        this.sound.addEventListener('ended', () => {
+        this._sound.addEventListener('ended', () => {
           if (!this.movedOn) {
             this.moveOn();
             this.movedOn = true;
           }
         })
-        this.sound.addEventListener('timeupdate', () => {
-          document.getElementById('timeSlider').setAttribute('value', this.sound.currentTime.toString());
-          this.times.updateCurrent(this.sound.currentTime);
+        this._sound.addEventListener('timeupdate', () => {
+          document.getElementById('timeSlider').setAttribute('value', this._sound.currentTime.toString());
+          this.times.updateCurrent(this._sound.currentTime);
+          this.analyser.getByteFrequencyData(this.dataArray);
+
         })
         document.getElementById('timeSlider').addEventListener('input', (event) => {
           this.setTime(event);
@@ -192,11 +254,16 @@ export class AppComponent {
 
       }
       if (this.paused) {
-        this.sound.play()
+        this._sound.play()
+        setInterval(() => {
+
+          this.visualize();
+
+        }, 1000 / 60);
         this.paused = false;
         return true;
       } else {
-        this.sound.pause();
+        this._sound.pause();
         this.paused = true;
         return true;
       }
@@ -204,12 +271,12 @@ export class AppComponent {
   }
 
   setTime(event) {
-    this.sound.currentTime = event.target.value;
+    this._sound.currentTime = event.target.value;
   }
   public addSongs(fileList: FileList): void {
     for (let i = 0; i < fileList.length; i++) {
       this.addToPlaylistSrc(URL.createObjectURL(fileList[i]));
-      let file = fileList[i];      
+      let file = fileList[i];
       this.addToPlaylist(file);
       this.playlistLength++;
     }
@@ -264,7 +331,7 @@ export class AppComponent {
   //             songSrc = '';
   //           }
   //          }
-          
+
   //     });
   //     console.log(lala);
   //   }
@@ -298,7 +365,7 @@ export class AppComponent {
   }
 
   stepForward() {
-    if (this.playlist.length > 0) {
+    if (this._playlist.length > 0) {
       if (this.currentSongId < this.playlistLength - 1) {
         this.currentSongId++;
       }
@@ -313,7 +380,7 @@ export class AppComponent {
   }
 
   stepBackward() {
-    if (this.playlist.length > 0) {
+    if (this._playlist.length > 0) {
       if (this.currentSongId > 0) {
         this.currentSongId--;
       }
@@ -334,55 +401,19 @@ export class AppComponent {
   }
 
   changeNightMode() {
-    {
-      // if (this.nightMode.getNightMode() === 1) {
-      //   console.log('sun lowering, moon rising');
-      //   document.getElementById('sun').style.animationName = 'iconTransitionSunOff';
-      //   document.getElementById('moon').style.animationName = 'iconTransitionMoonOn';
-      //   // document.getElementById('bar').style.animationName = 'backgroundTransitionOff';
-      //   document.getElementById('body').style.animationName = 'backgroundTransitionOff';
-      //   document.getElementById('music').style.animationName = 'iconTransitionMusicOff';
-      //   document.getElementById('palm').style.animationName = 'pngTransitionOff';
-      //   document.getElementById('play').style.animationName = 'iconTransitionMusicOff';
-      //   document.getElementById('forward').style.animationName = 'iconTransitionMusicOff';
-      //   document.getElementById('backward').style.animationName = 'iconTransitionMusicOff';
-      //   document.getElementById('shuffle').style.animationName = 'iconTransitionMusicOff';
-      //   document.getElementById('loop').style.animationName = 'iconTransitionMusicOff';
-      //   document.getElementById('timeSlider').style.animationName = 'sliderTransitionOff';
-      //   document.getElementById('volumeSlider').style.animationName = 'sliderTransitionOff';
-      //   document.getElementById('speaker').style.animationName = 'iconTransitionMusicOff';
-      //   document.getElementById('mute').style.animationName = 'iconTransitionMusicOff';
-
-      // } else {
-      //   console.log('sun rising, moon lowering');
-      //   document.getElementById('sun').style.animationName = 'iconTransitionSunOn';
-      //   document.getElementById('moon').style.animationName = 'iconTransitionMoonOff';
-      //   // document.getElementById('bar').style.animationName = 'backgroundTransitionOn';
-      //   document.getElementById('body').style.animationName = 'backgroundTransitionOn';
-      //   document.getElementById('music').style.animationName = 'iconTransitionMusicOn';
-      //   document.getElementById('palm').style.animationName = 'pngTransitionOn';
-      //   document.getElementById('play').style.animationName = 'iconTransitionMusicOn';
-      //   document.getElementById('forward').style.animationName = 'iconTransitionMusicOn';
-      //   document.getElementById('backward').style.animationName = 'iconTransitionMusicOn';
-      //   document.getElementById('shuffle').style.animationName = 'iconTransitionMusicOn';
-      //   document.getElementById('loop').style.animationName = 'iconTransitionMusicOn';
-      //   document.getElementById('timeSlider').style.animationName = 'sliderTransitionOn';
-      //   document.getElementById('volumeSlider').style.animationName = 'sliderTransitionOn';
-      //   document.getElementById('speaker').style.animationName = 'iconTransitionMusicOn';
-      //   document.getElementById('mute').style.animationName = 'iconTransitionMusicOn';
-
-      // }
+ 
+    if (this.playlistLength>0) {
+    document.getElementById('playlist').style.transitionDuration = '0s';
     }
-    this.nightMode.changeNightMode()
+    this._nightMode.changeNightMode()
   }
 
   isPaused(): boolean {
     return this.getIsPaused();
   }
 
-
   getNightMode(): number {
-    return this.nightMode.getNightMode();
+    return this._nightMode.getNightMode();
   }
 
   getCurrentSongId(): number {

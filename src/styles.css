@@ -1,17 +1,17 @@
 .day {
     background-color: rgb(130, 220, 236);
-    color: rgb(30,30,30);
-    border-color: rgb(30,30,30);
+    color: rgb(0,0,0);
+    border-color: rgb(0,0,0);
 }
 .night {
     background-color: rgb(15, 21, 44);
-    color: rgb(126, 191, 204);
+    color: rgb(130, 220, 236);
     border-color: rgb(225,225,225);
 }
 .daySecondary {
     background-color: rgb(130, 220, 236);
-    color: rgb(30,30,30);
-    border-color: rgb(30,30,30);  
+    color: rgb(0,0,0);
+    border-color: rgb(0,0,0);  
 }
 .nightSecondary {
     background-color: rgb(15, 21, 44);
