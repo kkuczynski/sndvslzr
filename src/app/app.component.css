@@ -601,6 +601,28 @@ input[type="file"] {
     text-shadow: 0px 0px 10px rgb(15, 21, 44);
     box-shadow: 0px 0px 10px rgb(15, 21, 44);
 }
+.dayCenter.shuffleChecked {
+    color: rgb(0,0,0);
+    text-shadow: 0px 0px 10px rgb(250,125,250);
+    box-shadow: 0px 0px 10px rgb(250,125,250);
+
+}
+.dayCenter.loopChecked {
+    color: rgb(0,0,0);
+    text-shadow: 0px 0px 10px rgb(250,125,250);
+    box-shadow: 0px 0px 10px rgb(250,125,250);
+
+}
+.nightCenter.loopChecked {
+    color: rgb(130, 220, 236);
+    text-shadow: 0px 0px 10px rgb(250,125,250);
+    box-shadow: 0px 0px 10px rgb(250,125,250);
+}
+.nightCenter.shuffleChecked {
+    color: rgb(130, 220, 236);
+    text-shadow: 0px 0px 10px rgb(250,125,250);
+    box-shadow: 0px 0px 10px rgb(250,125,250);
+}
 .nightCenterNoShadow{
     color: rgb(130, 220, 236);
 }
