@@ -286,6 +286,7 @@ img.palm {
     overflow: hidden;
     text-overflow: ellipsis;
     height: 30px;  
+    margin-top: 8px;
    
 }
 .songName{
