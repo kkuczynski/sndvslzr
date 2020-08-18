@@ -3,6 +3,7 @@ import { NightModeService } from './services/night-mode.service';
 import { UrlObject } from 'url';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { JsonPipe, DatePipe } from '@angular/common';
+import { YoutubeService } from './services/youtube.service';
 
 @Component({
   selector: 'app-root',
@@ -38,13 +39,30 @@ export class AppComponent {
   public barWidth;
   public x;
   public bufferLength;
+  public link = null;
 
-  constructor() {
+  constructor(
+    private youtubeService: YoutubeService
+    ) {
     this._nightMode = new NightModeService();
   }
 
   ngOnInit(): void {
     this.handleVolume();
+  }
+
+  linkChanged(event) {
+    this.link = event.target.value;
+    console.log(this.link);
+  }
+
+  submitYoutubeLink() {
+    let src = this.youtubeService.addYoutubeToPlaylist(this.link);
+    this.addToPlaylistSrc(src);
+    this.addToPlaylist(src as unknown as File)
+  }
+  getLink() {
+    return this.link;
   }
 
   setCanvas() {
