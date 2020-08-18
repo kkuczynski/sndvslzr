@@ -1,3 +1,3 @@
 ### https://kkuczynski.github.io/sndvslzr/
 
-Audio player playing files from your disk in a playlist, youtube and spotify in future
+Desktop audio player playing files from your disk in a playlist, no youtube support as it'd be against their TOS, soundcloud support in the future
