@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NightModeService } from './services/night-mode.service';
 import { UrlObject } from 'url';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { JsonPipe, DatePipe } from '@angular/common';
 import { YoutubeService } from './services/youtube.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-root',
@@ -40,15 +40,23 @@ export class AppComponent {
   public x;
   public bufferLength;
   public link = null;
+  public deviceInfo = null;
 
   constructor(
-    private youtubeService: YoutubeService
+    private youtubeService: YoutubeService, 
+    private deviceService: DeviceDetectorService
     ) {
     this._nightMode = new NightModeService();
   }
 
   ngOnInit(): void {
     this.handleVolume();
+    this.getDeviceInfo()
+  }
+
+  getDeviceInfo() {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+    console.log(this.deviceInfo);
   }
 
   linkChanged(event) {

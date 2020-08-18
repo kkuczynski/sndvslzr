@@ -1,10 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "types": ["node"],
-    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
+    "outDir": "./dist",
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
