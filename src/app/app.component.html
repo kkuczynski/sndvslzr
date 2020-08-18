@@ -64,7 +64,7 @@
 
   <div class=center id=center>
 
-    <div class=title id=title>{{currentTitle}}</div>
+    <div [ngClass]="(getNightMode()===0)?'nightTitle':'dayTitle'" class=title id=title>{{currentTitle}}</div>
 
     <button *ngIf=!shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffle id=shuffle
       (click)=changeShuffle()>

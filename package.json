@@ -33,6 +33,7 @@
     "inherits": "^2.0.4",
     "m3u8stream": "^0.7.1",
     "miniget": "^2.0.1",
+    "ngx-device-detector": "^1.4.6",
     "progress-stream": "^2.0.0",
     "readable-stream": "^3.6.0",
     "rxjs": "~6.4.0",
@@ -74,6 +75,5 @@
   "browser": {
     "child_process": false,
     "fs": false
-
   }
 }

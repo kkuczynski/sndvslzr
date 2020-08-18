@@ -357,6 +357,7 @@ input[type="file"] {
 .title {
     position: absolute;
     width: 800px;
+    max-width: 100%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -549,14 +550,16 @@ input[type="file"] {
    
 }
 .center {
+    max-width: 100%;
     position: absolute;
     left: 50%;
     margin-right: -50%;
-    bottom: 200px;
+    bottom: 20%;
+    max-height: 75%;
     transform: translateX(-50%);    
     background: none;
     animation-duration: 1s;
-    height: 400px;
+    
 }
 .play:hover {
     text-shadow: 0px 0px 20px rgb(250,125,250);
@@ -625,6 +628,29 @@ input[type="file"] {
 }
 .nightCenterNoShadow{
     color: rgb(130, 220, 236);
+}
+.nightTitle{
+    font-size: large;
+    text-shadow: 1px 1px 0px rgb(15, 21, 44),
+    -1px 1px 0px rgb(15, 21, 44),
+    1px -1px 0px rgb(15, 21, 44),
+    -1px -1px 0px rgb(15, 21, 44),
+    2px 2px 0px rgb(15, 21, 44)
+
+    
+    /* -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(250,125,250); */
+}
+.dayTitle{
+    font-size: large;
+    text-shadow: 1px 1px 0px rgb(130, 220, 236),
+    -1px 1px 0px rgb(130, 220, 236),
+    1px -1px 0px rgb(130, 220, 236),
+    -1px -1px 0px rgb(130, 220, 236),
+    2px 2px 0px rgb(130, 220, 236)
+
+    /* -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(250,125,250); */
 }
 .dayCenterNoShadow{
     color: rgb(0,0,0);
