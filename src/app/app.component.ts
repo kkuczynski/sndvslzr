@@ -61,8 +61,7 @@ export class AppComponent {
   }
 
   setViewForMobile() {
-    if (this.deviceService.isMobile() && window.innerWidth < window.innerHeight) {
-      console.log(true)
+    if (window.innerWidth < window.innerHeight) {
       this.vw = window.innerWidth * 0.0165;
       document.documentElement.style.setProperty('--vw', this.vw + 'px');
 
@@ -87,6 +86,7 @@ export class AppComponent {
     this.addToPlaylistSrc(src);
     this.addToPlaylist(src as unknown as File)
   }
+  
   getLink() {
     return this.link;
   }
