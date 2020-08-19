@@ -5,8 +5,8 @@
     left: 0%;
     bottom: 0;
     width: 100%;
-    height: 10vw;
-    height: calc(var(--vw, 1vw) * 10); 
+    height: 15%;
+   
   }
 
 button.night {
@@ -351,7 +351,7 @@ input[type="file"] {
     overflow: hidden;
     align-self: center;
     text-align: center;
-    margin-bottom: 1vw;
+    margin-bottom: 2vh;
     font-weight: bold;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -590,7 +590,7 @@ i.fa-pause{
     width: 100%;
 }
 .column {
-    bottom: 10vw;
+    bottom: 15%;
     position: absolute;
     width: 100%;
 }
