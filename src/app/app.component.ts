@@ -86,7 +86,7 @@ export class AppComponent {
     this.addToPlaylistSrc(src);
     this.addToPlaylist(src as unknown as File)
   }
-  
+
   getLink() {
     return this.link;
   }
@@ -153,9 +153,9 @@ export class AppComponent {
   }
 
   playlistOnMouseLeave() {
-    document.getElementById('playlist').style.width = '1.6vw';
+    document.getElementById('playlist').style.width = '0px';
     // document.getElementById('playlist').style.minWidth = '35px';
-    document.getElementById('playlist').style.borderLeft = 'solid '+3*this.vw + 'px';
+    document.getElementById('playlist').style.borderLeft = 'solid calc(var(--vw, 1vw) * 3)';
     // document.getElementById('playlist').style.opacity = '0.5';   
   }
 

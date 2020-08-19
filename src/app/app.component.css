@@ -135,8 +135,8 @@ img.palm {
     appearance: none;
     height: 0.4vw;    
     height: calc(var(--vw, 1vw) * 0.4);  
-    min-width: 50vw;
-    min-width: calc(var(--vw, 1vw) * 50);
+    width: 50vw;
+    width: calc(var(--vw, 1vw) * 50);
     opacity: 0.9;
     outline: none; 
     border: none;
@@ -235,17 +235,19 @@ img.palm {
     box-shadow: 0px 0px 15px rgb(250,125,250);
   }
 .playlist{    
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
     position: absolute;
     right: 0;
-    bottom: 20vw;
+    bottom: 15vh;
     max-height: 70%;
-    width: 1.6vw;
+    width: 0vw;
     overflow-x: hidden;
     display: block;
     white-space: nowrap;
     overflow-y: scroll;
     transition-duration: 0.5s;
-    transform: translateX(1.85vw);
+    transform: translateX(0.4vw);
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -260,6 +262,9 @@ img.palm {
     box-shadow: 0px 0px 1.5vw rgba(250,125,250, 0.6);
     /* transition-duration: 0.5s; */
     opacity: 1;
+}
+.playlist::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 .cdk-drag-preview {
     box-sizing: border-box;
@@ -288,8 +293,7 @@ img.palm {
     text-overflow: ellipsis;
     height: 3vw;  
     height: calc(var(--vw, 1vw) * 3);
-    margin-top: 0.8vw;
-    margin-top: calc(var(--vw, 1vw) * 0.8);
+    margin-top: 0.5vh;
    
 }
 .songName{
