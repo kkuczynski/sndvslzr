@@ -5,7 +5,7 @@
     left: 0%;
     bottom: 0;
     width: 100%;
-    height: 20vw;
+    height: 10vw;
     
   }
 
@@ -115,6 +115,7 @@ img.palm {
 }
 .times {  
     font-size: 1.3vw;
+    font-size: calc(var(--vw, 1vw) * 1.3vw);
     width: 100%;
     height: 1.5vw;
     align-items: center;
@@ -343,6 +344,7 @@ input[type="file"] {
 
 .title {
     font-size: 1.5vw;  
+    font-size: alc(var(--vw, 1vw) * 1.5);
     width: 80%;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -588,7 +590,7 @@ i.fa-pause{
     width: 100%;
 }
 .column {
-    bottom: 20vw;
+    bottom: 10vw;
     position: absolute;
     width: 100%;
 }
