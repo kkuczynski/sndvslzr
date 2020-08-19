@@ -62,10 +62,14 @@
     <img src="https://i.ibb.co/jw6mkTY/palm.png" class=palm id=palm [ngClass]="(getNightMode()===0)?'night':'day'">
   </div>
 
-  <div class=center id=center>
+  <div class=center id=center fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20ppx">
+    
 
     <div [ngClass]="(getNightMode()===0)?'nightTitle':'dayTitle'" class=title id=title>{{currentTitle}}</div>
 
+    <!-- <div class="centerButtons"> -->
+      
+  
     <button *ngIf=!shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffle id=shuffle
       (click)=changeShuffle()>
 
@@ -120,7 +124,8 @@
       <i class="fa fa-repeat" aria-hidden="true"></i>
 
     </button>
-
+  <!-- </div> -->
+  </div>
     <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" *ngIf="getSound()" type="range" min="0"
       max={{getSound().duration}} value={{getSound().currentTime}} class="slider active" id="timeSlider">
 
@@ -154,7 +159,7 @@
 
     </div>
 
-  </div>
+  
 
   <div *ngIf="playlistLength>0" [ngClass]="(getNightMode()===0)?'night':'day'" cdkDropList
     (cdkDropListDropped)="drop($event)" class=playlist id=playlist (mouseenter)=playlistOnMouseEnter()

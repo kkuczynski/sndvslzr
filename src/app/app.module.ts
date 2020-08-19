@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 
 @NgModule({
@@ -17,8 +18,8 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
     AppRoutingModule,
     BrowserAnimationsModule,   
     DragDropModule,
-    DeviceDetectorModule
-    
+    DeviceDetectorModule,
+    FlexLayoutModule
   ],
   providers: [
 
