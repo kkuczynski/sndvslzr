@@ -3,7 +3,7 @@ import { NightModeService } from './services/night-mode.service';
 import { UrlObject } from 'url';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { YoutubeService } from './services/youtube.service';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import { DeviceDetectorService, DeviceInfo } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-root',
@@ -40,18 +40,36 @@ export class AppComponent {
   public x;
   public bufferLength;
   public link = null;
-  public deviceInfo = null;
+  public deviceInfo: DeviceInfo = null;
+  private vw;
 
   constructor(
-    private youtubeService: YoutubeService, 
+    private youtubeService: YoutubeService,
     private deviceService: DeviceDetectorService
-    ) {
+  ) {
     this._nightMode = new NightModeService();
   }
 
   ngOnInit(): void {
+    this.vw = window.innerWidth * 0.01;
     this.handleVolume();
     this.getDeviceInfo()
+    this.setViewForMobile();
+    window.addEventListener('resize', () => {
+      this.setViewForMobile();
+    });
+  }
+
+  setViewForMobile() {
+    if (this.deviceService.isMobile() && window.innerWidth < window.innerHeight) {
+      console.log(true)
+      this.vw = window.innerWidth * 0.0165;
+      document.documentElement.style.setProperty('--vw', this.vw + 'px');
+
+    } else {
+      this.vw = window.innerWidth * 0.01;
+      document.documentElement.style.setProperty('--vw', this.vw + 'px'); 
+    }
   }
 
   getDeviceInfo() {
@@ -78,7 +96,7 @@ export class AppComponent {
     this.ctx = this.canvas.getContext("2d");
     this.width = this.canvas.width;
     this.height = this.canvas.height;
-    this.barWidth = (this.width / this.bufferLength) * 2.5;
+    this.barWidth = Math.ceil((this.width / this.bufferLength) * 2.5);
     this.barHeight;
     this.x = 0;
   }
@@ -98,7 +116,7 @@ export class AppComponent {
   }
 
   visualize() {
-    var x = 0;
+    this.x = 0;
     this.analyser.getByteFrequencyData(this.dataArray);
     if (!this._nightMode.getNightMode()) {
       this.ctx.fillStyle = "rgba(15, 21, 44, 1)"
@@ -108,13 +126,13 @@ export class AppComponent {
     this.ctx.fillRect(0, 0, this.width, this.height);
 
     for (let i = 0; i < this.bufferLength; i++) {
-      this.barHeight = this.dataArray[i]/2.2;
+      this.barHeight = this.dataArray[i] / 2.2;
       let r = 150 + (this.barHeight * 4);
-      let g = 0 + (this.barHeight*0.7);
+      let g = 0 + (this.barHeight * 0.7);
       let b = 200 - (this.barHeight * 4);
       this.ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",1)";
-      this.ctx.fillRect(x, this.height - this.barHeight, this.barWidth, this.barHeight);
-      x += this.barWidth + 1;
+      this.ctx.fillRect(this.x, this.height - this.barHeight, this.barWidth, this.barHeight);
+      this.x += this.barWidth + 1;
     }
   }
   mouseOnSong(i: number) {
@@ -122,15 +140,22 @@ export class AppComponent {
   }
 
   playlistOnMouseEnter() {
-    document.getElementById('playlist').style.width = '25%';
-    document.getElementById('playlist').style.borderLeft = 'solid 2px';
     document.getElementById('playlist').style.transitionDuration = '0.5s';
+    // document.getElementById('playlist').style.width = '25%';
+    if(window.innerHeight>window.innerWidth){
+    document.getElementById('playlist').style.width = '90%';
+    } else {
+      document.getElementById('playlist').style.width = '40%';
+    }
+    document.getElementById('playlist').style.borderLeft = 'solid 0.2vw';
+
     // document.getElementById('playlist').style.opacity = '0.9';
   }
 
   playlistOnMouseLeave() {
-    document.getElementById('playlist').style.width = '30px';
-    document.getElementById('playlist').style.borderLeft = 'solid 20px';
+    document.getElementById('playlist').style.width = '1.6vw';
+    // document.getElementById('playlist').style.minWidth = '35px';
+    document.getElementById('playlist').style.borderLeft = 'solid '+3*this.vw + 'px';
     // document.getElementById('playlist').style.opacity = '0.5';   
   }
 
@@ -427,9 +452,9 @@ export class AppComponent {
   }
 
   changeNightMode() {
- 
-    if (this.playlistLength>0) {
-    document.getElementById('playlist').style.transitionDuration = '0s';
+
+    if (this.playlistLength > 0) {
+      document.getElementById('playlist').style.transitionDuration = '0s';
     }
     this._nightMode.changeNightMode()
   }

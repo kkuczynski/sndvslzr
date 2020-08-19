@@ -62,80 +62,93 @@
     <img src="https://i.ibb.co/jw6mkTY/palm.png" class=palm id=palm [ngClass]="(getNightMode()===0)?'night':'day'">
   </div>
 
-  <div class=center id=center fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20ppx">
+  <div class=column fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="0.5vw">
+    <div class=titleDiv fxLayout="row" fxLayoutAlign="center center">      
     
-
     <div [ngClass]="(getNightMode()===0)?'nightTitle':'dayTitle'" class=title id=title>{{currentTitle}}</div>
+</div>
+    <div class=center id=center fxLayout="row" fxLayoutAlign="center center">
 
-    <!-- <div class="centerButtons"> -->
+
+      
+
+      <!-- <div class="centerButtons"> -->
+
+
+      <button *ngIf=!shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffle id=shuffle
+        (click)=changeShuffle()>
+
+        <i class="fa fa-random" aria-hidden="true"></i>
+
+      </button>
+
+      <button *ngIf=shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffleChecked id=shuffle
+        (click)=changeShuffle()>
+
+        <i class="fa fa-random" aria-hidden="true"></i>
+
+      </button>
+
+      <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=backward id=backward
+        (click)=stepBackward()>
+
+        <i class="fa fa-step-backward" aria-hidden="true"></i>
+
+      </button>
+
+      <button *ngIf=isPaused() [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=play id=play
+        (click)=play()>
+
+        <i class="fa fa-play" aria-hidden="true"></i>
+
+      </button>
+
+      <button *ngIf=!isPaused() [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=pause id=play
+        (click)=play()>
+
+        <i class="fa fa-pause" aria-hidden="true"></i>
+
+      </button>
+
+      <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=forward id=forward (click)=stepForward()>
+
+        <i class="fa fa-step-forward" aria-hidden="true"></i>
+
+      </button>
+
+      <button *ngIf=!loop [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=loop id=loop
+        (click)=changeLoop()>
+
+        <i class="fa fa-repeat" aria-hidden="true"></i>
+
+      </button>
+
+      <button *ngIf=loop [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=loopChecked id=loop
+        (click)=changeLoop()>
+
+        <i class="fa fa-repeat" aria-hidden="true"></i>
+
+      </button>
+      <!-- </div> -->
+    </div>
+    <!--/fx row, center buttons-->
+    <div class=progressDiv fxLayout="row" fxLayoutAlign="center center">
       
   
-    <button *ngIf=!shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffle id=shuffle
-      (click)=changeShuffle()>
+      <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" *ngIf="getSound()" type="range" min="0"
+        max={{getSound().duration}} value={{getSound().currentTime}} class="slider active" id="timeSlider">
 
-      <i class="fa fa-random" aria-hidden="true"></i>
+      <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" *ngIf="!getSound()" type="range" min="0"
+        max="100" class="slider" id="timeSlider" disabled>
+    </div>
+    <!--/time slider-->
+    <div class=times id=times fxLayout="row" fxLayoutAlign="center center">
+      <div *ngIf="getSound()" >{{times.currentMin}}:{{times.currentSec}}&nbsp;/&nbsp;{{times.durationMin}}:{{times.durationSec}}</div>
+    </div>
+    <!--/times-->
+    <div class=volumeDiv fxLayout="row" fxLayoutAlign="center center">   
+    
 
-    </button>
-
-    <button *ngIf=shuffle [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=shuffleChecked id=shuffle
-      (click)=changeShuffle()>
-
-      <i class="fa fa-random" aria-hidden="true"></i>
-
-    </button>
-
-    <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=backward id=backward
-      (click)=stepBackward()>
-
-      <i class="fa fa-step-backward" aria-hidden="true"></i>
-
-    </button>
-
-    <button *ngIf=isPaused() [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=play id=play
-      (click)=play()>
-
-      <i class="fa fa-play" aria-hidden="true"></i>
-
-    </button>
-
-    <button *ngIf=!isPaused() [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=pause id=play
-      (click)=play()>
-
-      <i class="fa fa-pause" aria-hidden="true"></i>
-
-    </button>
-
-    <button [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=forward id=forward (click)=stepForward()>
-
-      <i class="fa fa-step-forward" aria-hidden="true"></i>
-
-    </button>
-
-    <button *ngIf=!loop [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=loop id=loop
-      (click)=changeLoop()>
-
-      <i class="fa fa-repeat" aria-hidden="true"></i>
-
-    </button>
-
-    <button *ngIf=loop [ngClass]="(getNightMode()===0)?'nightCenter':'dayCenter'" class=loopChecked id=loop
-      (click)=changeLoop()>
-
-      <i class="fa fa-repeat" aria-hidden="true"></i>
-
-    </button>
-  <!-- </div> -->
-  </div>
-    <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" *ngIf="getSound()" type="range" min="0"
-      max={{getSound().duration}} value={{getSound().currentTime}} class="slider active" id="timeSlider">
-
-    <input [ngClass]="(getNightMode()===0)?'nightSlider':'daySlider'" *ngIf="!getSound()" type="range" min="0" max="100"
-      class="slider" id="timeSlider" disabled>
-
-    <div *ngIf="getSound()" class=times id=times>
-      {{times.currentMin}}:{{times.currentSec}}&nbsp;/&nbsp;{{times.durationMin}}:{{times.durationSec}}</div>
-
-    <div>
       <button [ngClass]="(getNightMode()===0)?'nightCenterNoShadow':'dayCenterNoShadow'" class=mute id=mute
         (click)=mute()>
 
@@ -158,8 +171,10 @@
       </button>
 
     </div>
+    <!--/volume-->
+  </div>
+  <!--/fx col-->
 
-  
 
   <div *ngIf="playlistLength>0" [ngClass]="(getNightMode()===0)?'night':'day'" cdkDropList
     (cdkDropListDropped)="drop($event)" class=playlist id=playlist (mouseenter)=playlistOnMouseEnter()

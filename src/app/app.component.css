@@ -5,68 +5,58 @@
     left: 0%;
     bottom: 0;
     width: 100%;
-    height: 200px;
+    height: 20vw;
     
   }
 
-.playlistButtons{
- position: absolute;
- transform: translate(50px,0);
-}
-
 button.night {
+    padding: 0;
     border-width: 0px;
-    font-size: 250%;        
-    right: 1px;
-    width: fit-content;
+    font-size: 3vw; 
+    font-size: calc(var(--vw, 1vw) * 3);         
+    right: 0;
     position: absolute;
     outline: none;
     cursor: pointer;
     background: none;
 }
 .buttonlike{
-    font-size: 250%;    
-    left: 1px;
+    font-size: 3vw;    
+    font-size: calc(var(--vw, 1vw) * 3);         
+    left: 0.1vw;
     cursor: pointer;
     position: absolute; 
-    width: fit-content;
-    height: 5%;
-}
-
-.addPlaylistFile{
-    font-size: 250%;    
-    left: 100px;
-    cursor: pointer;
-    position: absolute; 
-    width: fit-content;
-    height: 5%;
 }
 
 .custom-file-upload {
-    margin-left: 10px;
+    margin-left: 1vw;
+    margin-left: calc(var(--vw, 1vw) * 1);         
     cursor: pointer;
     width: fit-content;
     animation-duration: 1s;
 }
 .custom-file-upload:hover{
-    text-shadow: 2px 2px 10px rgb(250,125,250);
+    text-shadow: 0.2vw 0.2vw 1.5vw rgb(250,125,250);
 }
 .plus{
     position: absolute;
-    left:10px;
-    top: 13px;
-    font-size: initial;
-    width: 1%
+    left:0.7vw;
+    left: calc(var(--vw, 1vw) * 0.7);         
+    top: 1vw;
+    top: calc(var(--vw, 1vw) * 1);
+    font-size: 1vw;
+    font-size: calc(var(--vw, 1vw) * 1);
 }
 .music {
     position: absolute;
-    left:18px;
-    top: 1px;
+    top: 0;
+    left: 1vw;  
+    left: calc(var(--vw, 1vw) * 1);
 }
 .list {
     position: absolute;
-    left: 27px;
-    top: 4px;
+    left: 2.7vw;
+    top: 0.4vw;
 }
 i{
     width: 50%;    
@@ -74,9 +64,11 @@ i{
 }
 .slash {
     position: absolute;    
-   display: block;
-    transform: translate(2px,-36px) rotate(25deg);    
-    font-size: 40px;
+    display: block;
+    transform: translate(0.2vw,-3.7vw) rotate(25deg);    
+    font-size: 4.2vw;
+    transform: translate(calc(var(--vw, 1vw) *0.2),calc(var(--vw, 1vw) *-3.7)) rotate(25deg);    
+    font-size: calc(var(--vw, 1vw) *4.2);
 }
 i.pickedMoon {
     color: rgb(130, 220, 236);
@@ -91,10 +83,10 @@ i.notPickedSun {
     color: rgb(52, 57, 78);
 }
 i.notPickedSun:hover {
-    text-shadow: 0px 0px 10px rgb(250,125,250);
+    text-shadow: 0px 0px 1.5vw rgb(250,125,250);
 }
 i.notPickedMoon:hover {
-    text-shadow: 0px 0px 10px rgb(250,125,250);
+    text-shadow: 0px 0px 1.5vw rgb(250,125,250);
 }
 
 .body {
@@ -111,6 +103,7 @@ i.notPickedMoon:hover {
 .tree{
     height: 100%;
     background: none;
+    position: absolute;
 }
 img.palm {
     height:80%;
@@ -121,7 +114,9 @@ img.palm {
     animation-duration: 1s;
 }
 .times {  
+    font-size: 1.3vw;
     width: 100%;
+    height: 1.5vw;
     align-items: center;
     font-weight: bold;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -133,14 +128,18 @@ img.palm {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 .slider {
+    margin: 0;
+    margin-top: 2vw;
     -webkit-appearance: none; 
     appearance: none;
-    height: 5px;      
-    width: 50%;
+    height: 0.4vw;    
+    height: calc(var(--vw, 1vw) * 0.4);  
+    min-width: 50vw;
+    min-width: calc(var(--vw, 1vw) * 50);
     opacity: 0.9;
     outline: none; 
     border: none;
-    border-radius: 20px;    
+    border-radius: 50vw;    
     -webkit-transition: .2s;
     transition: opacity .2s;
     animation-duration: 1s;
@@ -155,7 +154,7 @@ img.palm {
     appearance: none;
     width: 0px; 
     height: 0px;
-    border-radius: 20px;
+    border-radius: 50vw;
     
     
  
@@ -163,17 +162,17 @@ img.palm {
   .slider.active::-webkit-slider-thumb {
     -webkit-appearance: none; 
     appearance: none;
-    width: 20px; 
-    height: 20px;
-    border-radius: 20px;
+    width: 1.5vw; 
+    height: 1.5vw;
+    border-radius: 50vw;
     animation-duration: 1s;
     
  
   }  
   .slider.active::-moz-range-thumb {
-    width: 20px; 
-    height: 20px;
-    border-radius: 20px;
+    width: 1.5vw; 
+    height: 1.5vw;
+    border-radius: 50vw;
     animation-duration: 1s;
      
   }
@@ -193,15 +192,17 @@ img.palm {
   .volumeSlider {
     -webkit-appearance: none; 
     appearance: none;
-    height: 5px;
-    width: 20%;
+    height: 0.4vw;
+    height: calc(var(--vw, 1vw) * 0.4);
+    width: 30vw;
     opacity: 0.9;
     outline: none; 
     border: none;
-    border-radius: 20px;    
+    border-radius: 50vw;    
     -webkit-transition: .2s;
     transition: opacity .2s;
     animation-duration: 1s;
+    margin: 0;
 }
 .volumeSlider:hover {
     opacity: 1;
@@ -211,17 +212,17 @@ img.palm {
 .volumeSlider::-webkit-slider-thumb {
     -webkit-appearance: none; 
     appearance: none;
-    width: 20px; 
-    height: 20px;
-    border-radius: 20px;
+    width: 1.5vw; 
+    height: 1.5vw;
+    border-radius: 50vw;
     animation-duration: 1s;
     
  
   }  
   .volumeSlider::-moz-range-thumb {
-    width: 20px; 
-    height: 20px;
-    border-radius: 20px;
+    width: 1.5vw; 
+    height: 1.5vw;
+    border-radius: 50vw;
     animation-duration: 1s;
     
   }
@@ -235,15 +236,15 @@ img.palm {
 .playlist{    
     position: absolute;
     right: 0;
-    bottom: 200px;
+    bottom: 20vw;
     max-height: 70%;
-    width: 40px;
+    width: 1.6vw;
     overflow-x: hidden;
     display: block;
     white-space: nowrap;
     overflow-y: scroll;
-    
-    transform: translateX(19px);
+    transition-duration: 0.5s;
+    transform: translateX(1.85vw);
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -251,19 +252,20 @@ img.palm {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
-    border-radius: 4px;
-    border: solid 2px;
-    border-left: solid 20px;
-    box-shadow: 0px 0px 10px rgba(250,125,250, 0.6);
+    border-radius: 0.4vw;
+    border: solid 0.2vw;
+    border-left: solid 3vw;
+    border-left: solid calc(var(--vw, 1vw) * 3);
+    box-shadow: 0px 0px 1.5vw rgba(250,125,250, 0.6);
     /* transition-duration: 0.5s; */
     opacity: 1;
 }
 .cdk-drag-preview {
     box-sizing: border-box;
-    border-radius: 4px;
-    box-shadow: 0 5px 5px -3px rgba(250,125,250, 0.2),
-                0 8px 10px 1px rgba(250,125,250, 0.14),
-                0 3px 14px 2px rgba(250,125,250, 0.12);  
+    border-radius: 0.4vw;
+    box-shadow: 0 0.5vw 0.5vw -0.3vw rgba(250,125,250, 0.2),
+                0 0.8vw 1.5vw 0.1vw rgba(250,125,250, 0.14),
+                0 0.3vw 2vw 0.2vw rgba(250,125,250, 0.12);  
     color:   rgba(250,125,250, 0.9)
   }
   
@@ -283,11 +285,16 @@ img.palm {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 30px;  
-    margin-top: 8px;
+    height: 3vw;  
+    height: calc(var(--vw, 1vw) * 3);
+    margin-top: 0.8vw;
+    margin-top: calc(var(--vw, 1vw) * 0.8);
    
 }
 .songName{
+    font-size: 1.7vw;
+    font-size: calc(var(--vw, 1vw) * 1.7);
+   
     transition-duration: 0.5s;    
     cursor: pointer;
 }
@@ -296,29 +303,33 @@ img.palm {
     background: none;
     outline: none;
     border: none;
-    font-size: 17px; 
+    font-size: 1.7vw; 
+    font-size: calc(var(--vw, 1vw) * 1.7);
     cursor: pointer;
     opacity: 0.5;
     transition-duration: 0.5s;
-    width: 22px;
+    width: 2.2vw;
+    width: calc(var(--vw, 1vw) * 2.2);
 }
 .disabledDelete {
     background: none;
     outline: none;
     border: none;
-    font-size: 17px; 
-    width: 22px;
+    font-size: 1.7vw; 
+    font-size: calc(var(--vw, 1vw) * 1.7);
+    width: 20.2vw;
     opacity: 0;  
+    width: calc(var(--vw, 1vw) * 2.2);
 }
 
 .delete:hover{
-    text-shadow: 0px 0px 5px rgb(250,125,250);      
+    text-shadow: 0px 0px 0.5vw rgb(250,125,250);      
     opacity: 1; 
 }
 
 
 .songName:hover{
-    text-shadow: 0px 0px 5px rgb(250,125,250);       
+    text-shadow: 0px 0px 0.5vw rgb(250,125,250);       
 }
 
 
@@ -330,14 +341,15 @@ input[type="file"] {
     filter: invert(72%) sepia(40%) saturate(365%) hue-rotate(141deg) brightness(105%) contrast(90%);
 }
 
-.title {  
-    width: 100%;
+.title {
+    font-size: 1.5vw;  
+    width: 80%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     align-self: center;
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 5vw;
     font-weight: bold;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -348,7 +360,6 @@ input[type="file"] {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 .sound {
-    position: absolute;
     bottom: 0;
     left: 50%;
     margin-right: -50%;
@@ -356,7 +367,11 @@ input[type="file"] {
     display: none;
 }
 .mute {
-    font-size: 30px;
+    padding: 0;
+    font-size: 3vw;
+    margin-right: 1vw;
+    font-size: calc(var(--vw, 1vw) * 3);
+    margin-right: calc(var(--vw, 1vw) * 1);
     background: none;
     border: solid;
     cursor: pointer;
@@ -373,76 +388,104 @@ input[type="file"] {
     
 }
 .mute:hover{
-    text-shadow: 0px 0px 20px rgb(250,125,250);
+    text-shadow: 0px 0px 2vw rgb(250,125,250);
 }
 .speaker{
-    font-size: 30px;
+    font-size: 3vw;
+    font-size: calc(var(--vw, 1vw) * 3);
     background: none;
     border: solid;
     cursor: pointer;
     border-width: 0px;    
     animation-duration: 1s;
     outline: none;
+    padding: 0;
 }
 .speaker:hover{
-    text-shadow: 0px 0px 20px rgb(250,125,250);
-}
-.centerButtons { 
-    width: 100%;   
-    height: 70%;    
+    text-shadow: 0px 0px 2vw rgb(250,125,250);
 }
 
-.play {    
-    
-    font-size: 250px;
-    border: solid;
-    border-radius: 300px;
-    padding-left: 22px;
-    padding-right: 72px;
-    padding-bottom: 0px;    
+.play {        
+    /* font-size: 250px; */
+    border: solid 0.2vw;
+    border-radius: 50vw;
+    padding-left: 1.5vw;
+    padding-right: 4.5vw;
+    padding-bottom: 1vw; 
+    padding-top: 1vw;   
+    padding-left: calc(var(--vw, 1vw) * 1.5);
+    padding-right: calc(var(--vw, 1vw) * 4.5);
+    padding-bottom: calc(var(--vw, 1vw) * 1); 
+    padding-top: calc(var(--vw, 1vw) * 1);   
     background: none;
     cursor: pointer;
     animation-duration: 1s;
     outline: none;
     text-align: center; 
+    margin-left: 0.6vw;
+    margin-right: 0.6vw;
 }
-.pause { 
-  
-    font-size: 200px;
-    border: solid;
-    border-radius: 300px;
-    padding-left: 16px;
-    padding-right: 103px;
-    padding-top: 29px;
-    padding-bottom: 29px;
+i.fa-play{    
+    font-size: 18vw;
+    font-size: calc(var(--vw, 1vw) * 18);
+}
+.pause {    
+    margin-left: 0.6vw;
+    margin-right: 0.6vw;
+    /* font-size: 200px; */
+    border: solid 0.2vw;
+    border-radius: 50vw;
+    padding-left: 0.39vw;
+    padding-right: 6.895vw;
+    padding-top: 2.488vw;
+    padding-bottom: 2.488vw;
+    padding-left: calc(var(--vw, 1vw) * 0.39);
+    padding-right: calc(var(--vw, 1vw) * 6.895);
+    padding-top: calc(var(--vw, 1vw) * 2.488);
+    padding-bottom: calc(var(--vw, 1vw) * 2.488);
     background: none;
     cursor: pointer;
     animation-duration: 1s;
     outline: none;
+    text-align: center;
+}
+i.fa-pause{
+    font-size: 15vw;
+    font-size: calc(var(--vw, 1vw) * 15);
 }
 .forward {   
-    
-    font-size: 100px;
-    border: solid;
-    border-radius: 300px;
-    padding-left: 20px;
-    padding-right: 50px;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    margin-right: 0.5vw;
+    font-size: 8vw;
+    font-size: calc(var(--vw, 1vw) * 8);
+    border: solid 0.2vw;
+    border-radius: 50vw;
+    padding-left: 1.15vw;
+    padding-right: 3.65vw;
+    padding-top: 0.1vw;
+    padding-bottom: 0.1vw;
+    padding-left: calc(var(--vw, 1vw) * 1.15);
+    padding-right: calc(var(--vw, 1vw) * 3.65);
+    padding-top: calc(var(--vw, 1vw) * 0.1);
+    padding-bottom: calc(var(--vw, 1vw) * 0.1);
     background: none;
     cursor: pointer;
     animation-duration: 1s;
     outline: none;
 }
 .backward {
-  
-    font-size: 100px;
-    border: solid;
-    border-radius: 300px;
-    padding-left: 20px;
-    padding-right: 50px;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    margin-left: 0.5vw;
+    font-size: 8vw;
+    font-size:  calc(var(--vw, 1vw) *8);
+    border: solid 0.2vw;
+    border-radius: 50vw;
+    padding-left: 1.15vw;
+    padding-right: 3.65vw;
+    padding-top: 0.1vw;
+    padding-bottom: 0.1vw;
+    padding-left: calc(var(--vw, 1vw) *1.15);
+    padding-right: calc(var(--vw, 1vw) *3.65);
+    padding-top: calc(var(--vw, 1vw) *0.1);
+    padding-bottom: calc(var(--vw, 1vw) *0.1);
     background: none;
     cursor: pointer;
     animation-duration: 1s;
@@ -450,43 +493,57 @@ input[type="file"] {
 }
 .loop {
     
-    font-size: 50px;
-    border: solid;
-    border-radius: 300px;
-    padding-left: 4px;
-    padding-right: 26px;
-    padding-top: 8px;
-    padding-bottom: 5px;
+    font-size: 4.6vw;
+    font-size: calc(var(--vw, 1vw) * 4.6);
+    border: solid 0.2vw;
+    border-radius: 50vw;
+    padding-left: 0vw;
+    padding-right: 2.058vw;
+    padding-top: 0.401vw;
+    padding-bottom: 0.3vw;
+    padding-left: calc(var(--vw, 1vw) * 0);
+    padding-right: calc(var(--vw, 1vw) * 2.058);
+    padding-top: calc(var(--vw, 1vw) * 0.401);
+    padding-bottom: calc(var(--vw, 1vw) * 0.3);
     background: none;
     cursor: pointer;
     animation-duration: 1s;
     outline: none;
 }
 .loopChecked {
-    
-    font-size: 50px;
-    border: solid;
-    border-radius: 300px;
-    padding-left: 4px;
-    padding-right: 26px;
-    padding-top: 8px;
-    padding-bottom: 5px;
+    font-size: 4.6vw;
+    font-size: calc(var(--vw, 1vw) * 4.6);
+    border: solid 0.2vw;
+    border-radius: 50vw;
+    padding-left: 0vw;
+    padding-right: 2.058vw;
+    padding-top: 0.401vw;
+    padding-bottom: 0.3vw;
+    padding-left: calc(var(--vw, 1vw) * 0);
+    padding-right: calc(var(--vw, 1vw) * 2.058);
+    padding-top: calc(var(--vw, 1vw) * 0.401);
+    padding-bottom: calc(var(--vw, 1vw) * 0.3);
     background: none;
     cursor: pointer;
     animation-duration: 1s;
     outline: none;
-    text-shadow: 0px 0px 10px rgb(250,125,250);
-    box-shadow: 0px 0px 10px rgb(250,125,250);
+    text-shadow: 0px 0px 1.5vw rgb(250,125,250);
+    box-shadow: 0px 0px 1.5vw rgb(250,125,250);
 }
 .shuffle {
     
-    font-size: 50px;
-    border: solid;
-    border-radius: 300px;
-    padding-left: 0px;
-    padding-right: 20px;
-    padding-top: 8px;
-    padding-bottom: 3px;
+    font-size: 4vw;
+    font-size: calc(var(--vw, 1vw) * 4);
+    border: solid 0.2vw;
+    border-radius: 50vw;
+    padding-left: 0vw;
+    padding-right: 2vw;
+    padding-top: 0.865vw;
+    padding-bottom: 0.55vw;
+    padding-left: calc(var(--vw, 1vw) * 0);
+    padding-right: calc(var(--vw, 1vw) * 2);
+    padding-top: calc(var(--vw, 1vw) * 0.865);
+    padding-bottom: calc(var(--vw, 1vw) * 0.55);
     background: none;
     cursor: pointer;
     animation-duration: 1s;
@@ -494,138 +551,166 @@ input[type="file"] {
 }
 .shuffleChecked {
   
-    font-size: 50px;
-    border: solid;
-    border-radius: 300px;
-    padding-left: 0px;
-    padding-right: 20px;
-    padding-top: 8px;
-    padding-bottom: 3px;
+    font-size: 4vw;
+    font-size: calc(var(--vw, 1vw) * 4);
+    border: solid 0.2vw;
+    border-radius: 50vw;
+    padding-left: 0vw;
+    padding-right: 2vw;
+    padding-top: 0.865vw;
+    padding-bottom: 0.55vw;
+    padding-left: calc(var(--vw, 1vw) * 0);
+    padding-right: calc(var(--vw, 1vw) * 2);
+    padding-top: calc(var(--vw, 1vw) * 0.865);
+    padding-bottom: calc(var(--vw, 1vw) * 0.55);
     background: none;
     cursor: pointer;
     animation-duration: 1s;
     outline: none;
-    text-shadow: 0px 0px 10px rgb(250,125,250);
-    box-shadow: 0px 0px 10px rgb(250,125,250);
+    text-shadow: 0px 0px 1.5vw rgb(250,125,250);
+    box-shadow: 0px 0px 1.5vw rgb(250,125,250);
 }
 
 
 .songPicked {
    /* text-decoration: underline ;
    text-decoration-style: solid; */
-   text-shadow: 0px 0px 5px rgb(250,125,250);
+   text-shadow: 0px 0px 0.5vw rgb(250,125,250);
    font-weight: bold;
-   /* border-left: solid 10px rgb(250,125,250);
-   border-top: none 10px; */
+   /* border-left: solid 1.5vw rgb(250,125,250);
+   border-top: none 1.5vw; */
    
 }
-.center {     
+.progressDiv{
+    width: 100%;    
+}
+.volumeDiv{
     width: 100%;
-    position: absolute;    
+}
+.column {
+    bottom: 20vw;
+    position: absolute;
+    width: 100%;
+}
+.titleDiv{
+    width: 100%;
+    height: 10%;
+}
+.center {         
+    height: 50%;
+    width: 100%;
     bottom: 20%; 
     background: none;
 }
 .play:hover {
-    text-shadow: 0px 0px 20px rgb(250,125,250);
-    box-shadow: 0px 0px 20px rgb(250,125,250);
+    text-shadow: 0px 0px 2vw rgb(250,125,250);
+    box-shadow: 0px 0px 2vw rgb(250,125,250);
 }
 .pause:hover {
-    text-shadow: 0px 0px 20px rgb(250,125,250);
-    box-shadow: 0px 0px 20px rgb(250,125,250);
+    text-shadow: 0px 0px 2vw rgb(250,125,250);
+    box-shadow: 0px 0px 2vw rgb(250,125,250);
 }
 .forward:hover {
-    text-shadow: 0px 0px 20px rgb(250,125,250);
-    box-shadow: 0px 0px 20px rgb(250,125,250);
+    text-shadow: 0px 0px 2vw rgb(250,125,250);
+    box-shadow: 0px 0px 2vw rgb(250,125,250);
 }
 .backward:hover {
-    text-shadow: 0px 0px 20px rgb(250,125,250);
-    box-shadow: 0px 0px 20px rgb(250,125,250);
+    text-shadow: 0px 0px 2vw rgb(250,125,250);
+    box-shadow: 0px 0px 2vw rgb(250,125,250);
 }
 .loop:hover {
-    text-shadow: 0px 0px 20px rgb(250,125,250);
-    box-shadow: 0px 0px 20px rgb(250,125,250);
+    text-shadow: 0px 0px 2vw rgb(250,125,250);
+    box-shadow: 0px 0px 2vw rgb(250,125,250);
 }
 .loopChecked:hover {
-    text-shadow: 0px 0px 20px rgb(250,125,250);
-    box-shadow: 0px 0px 20px rgb(250,125,250);
+    text-shadow: 0px 0px 2vw rgb(250,125,250);
+    box-shadow: 0px 0px 2vw rgb(250,125,250);
 }
 .shuffleChecked:hover {
-    text-shadow: 0px 0px 20px rgb(250,125,250);
-    box-shadow: 0px 0px 20px rgb(250,125,250);
+    text-shadow: 0px 0px 2vw rgb(250,125,250);
+    box-shadow: 0px 0px 2vw rgb(250,125,250);
 }
 
 .shuffle:hover {
-    text-shadow: 0px 0px 20px rgb(250,125,250);
-    box-shadow: 0px 0px 20px rgb(250,125,250);
+    text-shadow: 0px 0px 2vw rgb(250,125,250);
+    box-shadow: 0px 0px 2vw rgb(250,125,250);
 }
 .dayCenter {
     color: rgb(0,0,0);
-    text-shadow: 0px 0px 10px rgb(130, 220, 236);
-    box-shadow: 0px 0px 10px rgb(130, 220, 236);
+    text-shadow: 0px 0px 1.5vw rgb(130, 220, 236);
+    box-shadow: 0px 0px 1.5vw rgb(130, 220, 236);
 }
 .nightCenter {
     color: rgb(130, 220, 236);
-    text-shadow: 0px 0px 10px rgb(15, 21, 44);
-    box-shadow: 0px 0px 10px rgb(15, 21, 44);
+    text-shadow: 0px 0px 1.5vw rgb(15, 21, 44);
+    box-shadow: 0px 0px 1.5vw rgb(15, 21, 44);
 }
 .dayCenter.shuffleChecked {
     color: rgb(0,0,0);
-    text-shadow: 0px 0px 10px rgb(250,125,250);
-    box-shadow: 0px 0px 10px rgb(250,125,250);
+    text-shadow: 0px 0px 1.5vw rgb(250,125,250);
+    box-shadow: 0px 0px 1.5vw rgb(250,125,250);
 
 }
 .dayCenter.loopChecked {
     color: rgb(0,0,0);
-    text-shadow: 0px 0px 10px rgb(250,125,250);
-    box-shadow: 0px 0px 10px rgb(250,125,250);
+    text-shadow: 0px 0px 1.5vw rgb(250,125,250);
+    box-shadow: 0px 0px 1.5vw rgb(250,125,250);
 
 }
 .nightCenter.loopChecked {
     color: rgb(130, 220, 236);
-    text-shadow: 0px 0px 10px rgb(250,125,250);
-    box-shadow: 0px 0px 10px rgb(250,125,250);
+    text-shadow: 0px 0px 1.5vw rgb(250,125,250);
+    box-shadow: 0px 0px 1.5vw rgb(250,125,250);
 }
 .nightCenter.shuffleChecked {
     color: rgb(130, 220, 236);
-    text-shadow: 0px 0px 10px rgb(250,125,250);
-    box-shadow: 0px 0px 10px rgb(250,125,250);
+    text-shadow: 0px 0px 1.5vw rgb(250,125,250);
+    box-shadow: 0px 0px 1.5vw rgb(250,125,250);
 }
 .nightCenterNoShadow{
     color: rgb(130, 220, 236);
+    text-shadow: 0.1vw 0.1vw 0px rgb(15, 21, 44),
+    -0.1vw 0.1vw 0px rgb(15, 21, 44),
+    0.1vw -0.1vw 0px rgb(15, 21, 44),
+    -0.1vw -0.1vw 0px rgb(15, 21, 44),
+    0.2vw 0.2vw 0px rgb(15, 21, 44)
 }
-.nightTitle{
-    font-size: large;
-    text-shadow: 1px 1px 0px rgb(15, 21, 44),
-    -1px 1px 0px rgb(15, 21, 44),
-    1px -1px 0px rgb(15, 21, 44),
-    -1px -1px 0px rgb(15, 21, 44),
-    2px 2px 0px rgb(15, 21, 44)
+.nightTitle{ 
+    text-shadow: 0.1vw 0.1vw 0px rgb(15, 21, 44),
+    -0.1vw 0.1vw 0px rgb(15, 21, 44),
+    0.1vw -0.1vw 0px rgb(15, 21, 44),
+    -0.1vw -0.1vw 0px rgb(15, 21, 44),
+    0.2vw 0.2vw 0px rgb(15, 21, 44)
 
     
-    /* -webkit-text-stroke-width: 1px;
+    /* -webkit-text-stroke-width: 0.1vw;
     -webkit-text-stroke-color: rgb(250,125,250); */
 }
 .dayTitle{
-    font-size: large;
-    text-shadow: 1px 1px 0px rgb(130, 220, 236),
-    -1px 1px 0px rgb(130, 220, 236),
-    1px -1px 0px rgb(130, 220, 236),
-    -1px -1px 0px rgb(130, 220, 236),
-    2px 2px 0px rgb(130, 220, 236)
+    text-shadow: 0.1vw 0.1vw 0px rgb(130, 220, 236),
+    -0.1vw 0.1vw 0px rgb(130, 220, 236),
+    0.1vw -0.1vw 0px rgb(130, 220, 236),
+    -0.1vw -0.1vw 0px rgb(130, 220, 236),
+    0px, 0px, 0.2vw rgb(130, 220, 236)
 
-    /* -webkit-text-stroke-width: 1px;
+    /* -webkit-text-stroke-width: 0.1vw;
     -webkit-text-stroke-color: rgb(250,125,250); */
 }
 .dayCenterNoShadow{
     color: rgb(0,0,0);
+    text-shadow: 0.1vw 0.1vw 0px rgb(130, 220, 236),
+    -0.1vw 0.1vw 0px rgb(130, 220, 236),
+    0.1vw -0.1vw 0px rgb(130, 220, 236),
+    -0.1vw -0.1vw 0px rgb(130, 220, 236),
+    0px, 0px, 0.2vw rgb(130, 220, 236)
 }
 .nightSlider {
     background: rgb(130, 220, 236);
-    box-shadow: 0px 0px 10px rgb(15, 21, 44);
+    box-shadow: 0px 0px 1.5vw rgb(15, 21, 44);
 }
 .daySlider{
     background: rgb(0,0,0);
-    box-shadow: 0px 0px 10px rgb(130, 220, 236);
+    box-shadow: 0px 0px 1.5vw rgb(130, 220, 236);
 }
 
 .daySlider::-moz-range-thumb{
