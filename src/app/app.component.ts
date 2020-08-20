@@ -64,8 +64,7 @@ export class AppComponent {
   }
 
   handleKeyboard(){
-    document.addEventListener('keydown', (event: KeyboardEvent) => {
-      console.log(event);
+    document.addEventListener('keydown', (event: KeyboardEvent) => {  
       if(event.code==="Space" || event.code==="KeyP") {
         document.getElementById('play').click();
       } else if(event.code==="ArrowLeft" || event.code==="KeyA") {
@@ -97,12 +96,10 @@ export class AppComponent {
 
   getDeviceInfo() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
-    console.log(this.deviceInfo);
   }
 
   linkChanged(event) {
     this.link = event.target.value;
-    console.log(this.link);
   }
 
   submitYoutubeLink() {
