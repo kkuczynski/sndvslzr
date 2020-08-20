@@ -4,6 +4,7 @@ import { UrlObject } from 'url';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { YoutubeService } from './services/youtube.service';
 import { DeviceDetectorService, DeviceInfo } from 'ngx-device-detector';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-root',
@@ -51,12 +52,35 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
+    document.body.style.backgroundColor = "rgb(15, 21, 44)";
     this.vw = window.innerWidth * 0.01;
+    this.handleKeyboard();
     this.handleVolume();
     this.getDeviceInfo()
     this.setViewForMobile();
     window.addEventListener('resize', () => {
       this.setViewForMobile();
+    });
+  }
+
+  handleKeyboard(){
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
+      console.log(event);
+      if(event.code==="Space" || event.code==="KeyP") {
+        document.getElementById('play').click();
+      } else if(event.code==="ArrowLeft" || event.code==="KeyA") {
+        document.getElementById('backward').click();
+      } else if(event.code==="ArrowRight" || event.code==="KeyD") {
+        document.getElementById('forward').click();
+      } else if(event.code==="KeyL") {
+        document.getElementById('loop').click();
+      } else if(event.code==="KeyS"){
+        document.getElementById('shuffle').click();
+      } else if(event.code==="Comma"){
+        this._sound.currentTime-=5;
+      } else if(event.code==="Period"){
+        this._sound.currentTime+=5;
+      }
     });
   }
 
